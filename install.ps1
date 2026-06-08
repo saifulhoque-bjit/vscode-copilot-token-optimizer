@@ -19,30 +19,28 @@ Write-Host ""
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Create .github directory
-Write-Host "[1/5] Creating .github directory..." -ForegroundColor Yellow
-if (!(Test-Path ".github")) {
-    New-Item -ItemType Directory -Path ".github" | Out-Null
-}
+# Download Karpathy's guidelines to home directory
+Write-Host "[1/3] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
+$KarpathyFile = "$env:USERPROFILE\.karpathy-coding-guidelines.md"
+Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile $KarpathyFile
+Write-Host "      Saved to: $KarpathyFile" -ForegroundColor Gray
 Write-Host "      Done!" -ForegroundColor Green
 
-# Download copilot-instructions.md
-Write-Host "[2/5] Downloading Copilot custom instructions..." -ForegroundColor Yellow
-Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile ".github/copilot-instructions.md"
-Write-Host "      Done!" -ForegroundColor Green
-
-# Download Karpathy's coding guidelines
-Write-Host "[3/5] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
-Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile ".github/KARPATHY_SKILL.md"
+# Create global AGENTS.md in user home (Copilot reads this globally)
+Write-Host "[2/3] Creating global AGENTS.md in user home..." -ForegroundColor Yellow
+$AgentsFile = "$env:USERPROFILE\AGENTS.md"
+Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile $AgentsFile
+Write-Host "      Saved to: $AgentsFile" -ForegroundColor Gray
 Write-Host "      Done!" -ForegroundColor Green
 
 # Update VS Code settings
-Write-Host "[4/5] Updating VS Code settings..." -ForegroundColor Yellow
+Write-Host "[3/3] Updating VS Code settings..." -ForegroundColor Yellow
 
 $VscSettingsPath = "$env:APPDATA\Code\User\settings.json"
 
 # Create settings file if it doesn't exist
 if (!(Test-Path $VscSettingsPath)) {
+    New-Item -ItemType Directory -Path (Split-Path $VscSettingsPath) -Force | Out-Null
     "{}" | Out-File -FilePath $VscSettingsPath -Encoding UTF8
 }
 
@@ -57,6 +55,7 @@ try {
 $settings | Add-Member -NotePropertyName "github.copilot.advanced.length" -NotePropertyValue 500 -Force
 $settings | Add-Member -NotePropertyName "github.copilot.chat.codeGeneration.useInstructionFiles" -NotePropertyValue $true -Force
 $settings | Add-Member -NotePropertyName "github.copilot.advanced.inlineSuggestCount" -NotePropertyValue 3 -Force
+$settings | Add-Member -NotePropertyName "chat.useAgentsMdFile" -NotePropertyValue $true -Force
 
 # Write back
 $settings | ConvertTo-Json -Depth 10 | Out-File -FilePath $VscSettingsPath -Encoding UTF8
@@ -65,25 +64,29 @@ Write-Host "      VS Code settings updated!" -ForegroundColor Green
 
 # Summary
 Write-Host ""
-Write-Host "[5/5] Installation Complete!" -ForegroundColor Green
-Write-Host ""
 Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "  WHAT WAS INSTALLED" -ForegroundColor Cyan
+Write-Host "  INSTALLATION COMPLETE!" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Files installed:" -ForegroundColor White
-Write-Host "    .github/copilot-instructions.md  (token optimization + loads Karpathy)" -ForegroundColor Gray
-Write-Host "    .github/KARPATHY_SKILL.md        (Karpathy's coding principles)" -ForegroundColor Gray
+Write-Host "    ~/AGENTS.md                       (global Copilot instructions)" -ForegroundColor Gray
+Write-Host "    ~/.karpathy-coding-guidelines.md  (Karpathy's coding principles)" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  VS Code settings updated:" -ForegroundColor White
 Write-Host "    github.copilot.advanced.length = 500" -ForegroundColor Gray
 Write-Host "    github.copilot.chat.codeGeneration.useInstructionFiles = true" -ForegroundColor Gray
 Write-Host "    github.copilot.advanced.inlineSuggestCount = 3" -ForegroundColor Gray
+Write-Host "    chat.useAgentsMdFile = true" -ForegroundColor Gray
+Write-Host ""
+Write-Host "  How it works:" -ForegroundColor White
+Write-Host "    - AGENTS.md in your home directory is loaded GLOBALLY" -ForegroundColor Gray
+Write-Host "    - It applies to ALL projects in VS Code" -ForegroundColor Gray
+Write-Host "    - It tells Copilot to follow Karpathy's guidelines" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray
 Write-Host '    2. Use concise prompts: "Sum even nums. Handle edge cases."' -ForegroundColor Gray
-Write-Host "    3. Check guidelines: cat .github/KARPATHY_SKILL.md" -ForegroundColor Gray
+Write-Host "    3. Check guidelines: cat ~/.karpathy-coding-guidelines.md" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  SAVINGS: 30-60% fewer tokens per Copilot interaction" -ForegroundColor Green
 Write-Host ""

@@ -18,23 +18,6 @@ echo ""
 echo "============================================================"
 echo ""
 
-# Create .github directory
-echo "[1/5] Creating .github directory..."
-mkdir -p .github
-
-# Download copilot-instructions.md
-echo "[2/5] Downloading Copilot custom instructions..."
-curl -fsSL "$BASE_URL/copilot-instructions.md" -o .github/copilot-instructions.md
-echo "      Done!"
-
-# Download Karpathy's coding guidelines
-echo "[3/5] Downloading Karpathy's coding guidelines..."
-curl -fsSL "$BASE_URL/KARPATHY_SKILL.md" -o .github/KARPATHY_SKILL.md
-echo "      Done!"
-
-# Update VS Code settings
-echo "[4/5] Updating VS Code settings..."
-
 # Detect VS Code settings path
 if [[ "$OSTYPE" == "darwin"* ]]; then
     VSCODE_SETTINGS="$HOME/Library/Application Support/Code/User/settings.json"
@@ -46,84 +29,94 @@ else
     VSCODE_SETTINGS="$HOME/.config/Code/User/settings.json"
 fi
 
+# Download Karpathy's guidelines to home directory
+echo "[1/3] Downloading Karpathy's coding guidelines..."
+KARPATHY_FILE="$HOME/.karpathy-coding-guidelines.md"
+curl -fsSL "$BASE_URL/KARPATHY_SKILL.md" -o "$KARPATHY_FILE"
+echo "      Saved to: $KARPATHY_FILE"
+echo "      Done!"
+echo ""
+
+# Create global AGENTS.md in user home (Copilot reads this globally)
+echo "[2/3] Creating global AGENTS.md in user home..."
+AGENTS_FILE="$HOME/AGENTS.md"
+curl -fsSL "$BASE_URL/copilot-instructions.md" -o "$AGENTS_FILE"
+echo "      Saved to: $AGENTS_FILE"
+echo "      Done!"
+echo ""
+
+# Update VS Code settings
+echo "[3/3] Updating VS Code settings..."
+echo "      Settings file: $VSCODE_SETTINGS"
+
 # Create settings file if it doesn't exist
 if [ ! -f "$VSCODE_SETTINGS" ]; then
+    mkdir -p "$(dirname "$VSCODE_SETTINGS")"
     echo "{}" > "$VSCODE_SETTINGS"
 fi
 
-# Check if python3 is available for JSON merging
-if command -v python3 &> /dev/null; then
-    python3 -c "
+# Update settings with Python
+python3 -c "
 import json
-import sys
+import os
 
-settings_path = '$VSCODE_SETTINGS'
+settings_path = r'$VSCODE_SETTINGS'
+
+# Read existing settings
 try:
     with open(settings_path, 'r') as f:
         settings = json.load(f)
 except:
     settings = {}
 
+# Optimization settings
 settings['github.copilot.advanced.length'] = 500
 settings['github.copilot.chat.codeGeneration.useInstructionFiles'] = True
 settings['github.copilot.advanced.inlineSuggestCount'] = 3
 
+# Enable AGENTS.md support
+settings['chat.useAgentsMdFile'] = True
+
+# Write back
 with open(settings_path, 'w') as f:
     json.dump(settings, f, indent=2)
 
 print('      VS Code settings updated!')
-"
-elif command -v python &> /dev/null; then
-    python -c "
-import json
-import sys
-
-settings_path = '$VSCODE_SETTINGS'
-try:
-    with open(settings_path, 'r') as f:
-        settings = json.load(f)
-except:
-    settings = {}
-
-settings['github.copilot.advanced.length'] = 500
-settings['github.copilot.chat.codeGeneration.useInstructionFiles'] = True
-settings['github.copilot.advanced.inlineSuggestCount'] = 3
-
-with open(settings_path, 'w') as f:
-    json.dump(settings, f, indent=2)
-
-print('      VS Code settings updated!')
-"
-else
+" 2>&1 || {
     echo "      WARNING: Python not found. Please add these settings manually:"
     echo '      {'
     echo '        "github.copilot.advanced.length": 500,'
     echo '        "github.copilot.chat.codeGeneration.useInstructionFiles": true,'
-    echo '        "github.copilot.advanced.inlineSuggestCount": 3'
+    echo '        "github.copilot.advanced.inlineSuggestCount": 3,'
+    echo '        "chat.useAgentsMdFile": true'
     echo '      }'
-fi
+}
 
 # Summary
 echo ""
-echo "[5/5] Installation Complete!"
-echo ""
 echo "============================================================"
-echo "  WHAT WAS INSTALLED"
+echo "  INSTALLATION COMPLETE!"
 echo "============================================================"
 echo ""
 echo "  Files installed:"
-echo "    .github/copilot-instructions.md  (token optimization + loads Karpathy)"
-echo "    .github/KARPATHY_SKILL.md        (Karpathy's coding principles)"
+echo "    ~/AGENTS.md                       (global Copilot instructions)"
+echo "    ~/.karpathy-coding-guidelines.md  (Karpathy's coding principles)"
 echo ""
 echo "  VS Code settings updated:"
 echo "    github.copilot.advanced.length = 500"
 echo "    github.copilot.chat.codeGeneration.useInstructionFiles = true"
 echo "    github.copilot.advanced.inlineSuggestCount = 3"
+echo "    chat.useAgentsMdFile = true"
+echo ""
+echo "  How it works:"
+echo "    - AGENTS.md in your home directory is loaded GLOBALLY"
+echo "    - It applies to ALL projects in VS Code"
+echo "    - It tells Copilot to follow Karpathy's guidelines"
 echo ""
 echo "  Quick Start:"
 echo "    1. Restart VS Code"
 echo '    2. Use concise prompts: "Sum even nums. Handle edge cases."'
-echo "    3. Check guidelines: cat .github/KARPATHY_SKILL.md"
+echo "    3. Check guidelines: cat ~/.karpathy-coding-guidelines.md"
 echo ""
 echo "  SAVINGS: 30-60% fewer tokens per Copilot interaction"
 echo ""
