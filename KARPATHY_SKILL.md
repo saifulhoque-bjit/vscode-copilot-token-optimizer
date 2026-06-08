@@ -1,3 +1,8 @@
+---
+applyTo: "**"
+description: "Karpathy's coding guidelines - simple, clean, readable code"
+---
+
 # Karpathy's Coding Guidelines
 
 ## Philosophy

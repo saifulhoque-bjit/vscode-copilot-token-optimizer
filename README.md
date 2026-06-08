@@ -106,12 +106,13 @@ Use concise prompts in Copilot Chat:
 ### What Gets Installed
 
 ```
-.github/
-├── copilot-instructions.md     # Token optimization (auto-loaded by Copilot)
-└── KARPATHY_SKILL.md      # Karpathy's clean coding principles
+VS Code User Prompts Folder:
+  Windows: %APPDATA%\Code\User\prompts\global.instructions.md
+  Linux:   ~/.config/Code/User/prompts/global.instructions.md
+  Mac:     ~/Library/Application Support/Code/User/prompts/global.instructions.md
 ```
 
-The install script automatically installs Karpathy's coding guidelines alongside the token optimizer. These guidelines teach Copilot to write clean, simple, readable code following Andrej Karpathy's philosophy from nanoGPT, minGPT, and llm.c.
+The install script automatically installs Karpathy's coding guidelines to VS Code's global prompts folder. These guidelines teach Copilot to write clean, simple, readable code following Andrej Karpathy's philosophy from nanoGPT, minGPT, and llm.c. This applies to ALL projects automatically.
 
 ---
 
