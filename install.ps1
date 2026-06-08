@@ -19,22 +19,86 @@ Write-Host ""
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Download Karpathy's guidelines to home directory
-Write-Host "[1/3] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
-$KarpathyFile = "$env:USERPROFILE\.karpathy-coding-guidelines.md"
-Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile $KarpathyFile
-Write-Host "      Saved to: $KarpathyFile" -ForegroundColor Gray
-Write-Host "      Done!" -ForegroundColor Green
+# Ask user for project path
+Write-Host "Where should the Copilot instructions be installed?" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "  [1] Current directory ($(Get-Location))" -ForegroundColor White
+Write-Host "  [2] Specific project path" -ForegroundColor White
+Write-Host "  [3] All projects in a directory (scan for .git folders)" -ForegroundColor White
+Write-Host ""
 
-# Create global AGENTS.md in user home (Copilot reads this globally)
-Write-Host "[2/3] Creating global AGENTS.md in user home..." -ForegroundColor Yellow
-$AgentsFile = "$env:USERPROFILE\AGENTS.md"
-Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile $AgentsFile
-Write-Host "      Saved to: $AgentsFile" -ForegroundColor Gray
-Write-Host "      Done!" -ForegroundColor Green
+$Option = Read-Host "Choose option (1/2/3) [default: 1]"
+if ([string]::IsNullOrEmpty($Option)) { $Option = "1" }
+
+$ProjectPaths = @()
+
+switch ($Option) {
+    "1" {
+        $ProjectPaths += (Get-Location).Path
+    }
+    "2" {
+        $CustomPath = Read-Host "Enter project path"
+        if (!(Test-Path $CustomPath)) {
+            Write-Host "Error: Directory not found: $CustomPath" -ForegroundColor Red
+            exit 1
+        }
+        $ProjectPaths += $CustomPath
+    }
+    "3" {
+        $ParentPath = Read-Host "Enter parent directory to scan"
+        if (!(Test-Path $ParentPath)) {
+            Write-Host "Error: Directory not found: $ParentPath" -ForegroundColor Red
+            exit 1
+        }
+        $ProjectPaths = Get-ChildItem -Path $ParentPath -Directory -Recurse -Depth 2 | 
+            Where-Object { Test-Path (Join-Path $_.FullName ".git") } |
+            Select-Object -ExpandProperty FullName
+        
+        if ($ProjectPaths.Count -eq 0) {
+            Write-Host "No git repositories found in $ParentPath" -ForegroundColor Red
+            exit 1
+        }
+        Write-Host "Found $($ProjectPaths.Count) projects" -ForegroundColor Green
+    }
+    default {
+        Write-Host "Invalid option" -ForegroundColor Red
+        exit 1
+    }
+}
+
+Write-Host ""
+Write-Host "Installing to $($ProjectPaths.Count) project(s)..." -ForegroundColor Yellow
+Write-Host ""
+
+foreach ($ProjectPath in $ProjectPaths) {
+    Write-Host "------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "  Project: $ProjectPath" -ForegroundColor Cyan
+    Write-Host "------------------------------------------------------------" -ForegroundColor Cyan
+    
+    # Create .github directory
+    Write-Host "  [1/3] Creating .github directory..." -ForegroundColor Yellow
+    $GithubDir = Join-Path $ProjectPath ".github"
+    if (!(Test-Path $GithubDir)) {
+        New-Item -ItemType Directory -Path $GithubDir | Out-Null
+    }
+    Write-Host "        Done!" -ForegroundColor Green
+
+    # Download copilot-instructions.md
+    Write-Host "  [2/3] Downloading Copilot custom instructions..." -ForegroundColor Yellow
+    Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile (Join-Path $GithubDir "copilot-instructions.md")
+    Write-Host "        Done!" -ForegroundColor Green
+
+    # Download Karpathy's coding guidelines
+    Write-Host "  [3/3] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
+    Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile (Join-Path $GithubDir "KARPATHY_SKILL.md")
+    Write-Host "        Done!" -ForegroundColor Green
+    Write-Host ""
+}
 
 # Update VS Code settings
-Write-Host "[3/3] Updating VS Code settings..." -ForegroundColor Yellow
+Write-Host "------------------------------------------------------------" -ForegroundColor Cyan
+Write-Host "  Updating VS Code settings..." -ForegroundColor Yellow
+Write-Host "------------------------------------------------------------" -ForegroundColor Cyan
 
 $VscSettingsPath = "$env:APPDATA\Code\User\settings.json"
 
@@ -54,7 +118,6 @@ try {
 # Add/update settings
 $settings | Add-Member -NotePropertyName "github.copilot.advanced.length" -NotePropertyValue 500 -Force
 $settings | Add-Member -NotePropertyName "github.copilot.chat.codeGeneration.useInstructionFiles" -NotePropertyValue $true -Force
-$settings | Add-Member -NotePropertyName "chat.useAgentsMdFile" -NotePropertyValue $true -Force
 
 # Write back
 $settings | ConvertTo-Json -Depth 10 | Out-File -FilePath $VscSettingsPath -Encoding UTF8
@@ -67,24 +130,23 @@ Write-Host "============================================================" -Foreg
 Write-Host "  INSTALLATION COMPLETE!" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  Files installed:" -ForegroundColor White
-Write-Host "    ~/AGENTS.md                       (global Copilot instructions)" -ForegroundColor Gray
-Write-Host "    ~/.karpathy-coding-guidelines.md  (Karpathy's coding principles)" -ForegroundColor Gray
+Write-Host "  Projects configured: $($ProjectPaths.Count)" -ForegroundColor White
+foreach ($ProjectPath in $ProjectPaths) {
+    Write-Host "    - $ProjectPath" -ForegroundColor Gray
+}
+Write-Host ""
+Write-Host "  Files installed per project:" -ForegroundColor White
+Write-Host "    .github/copilot-instructions.md  (token optimization + loads Karpathy)" -ForegroundColor Gray
+Write-Host "    .github/KARPATHY_SKILL.md        (Karpathy's coding principles)" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  VS Code settings updated:" -ForegroundColor White
 Write-Host "    github.copilot.advanced.length = 500" -ForegroundColor Gray
 Write-Host "    github.copilot.chat.codeGeneration.useInstructionFiles = true" -ForegroundColor Gray
-Write-Host "    chat.useAgentsMdFile = true" -ForegroundColor Gray
-Write-Host ""
-Write-Host "  How it works:" -ForegroundColor White
-Write-Host "    - AGENTS.md in your home directory is loaded GLOBALLY" -ForegroundColor Gray
-Write-Host "    - It applies to ALL projects in VS Code" -ForegroundColor Gray
-Write-Host "    - It tells Copilot to follow Karpathy's guidelines" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray
 Write-Host '    2. Use concise prompts: "Sum even nums. Handle edge cases."' -ForegroundColor Gray
-Write-Host "    3. Check guidelines: cat ~/.karpathy-coding-guidelines.md" -ForegroundColor Gray
+Write-Host "    3. Check guidelines: cat .github/KARPATHY_SKILL.md" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  SAVINGS: 30-60% fewer tokens per Copilot interaction" -ForegroundColor Green
 Write-Host ""
