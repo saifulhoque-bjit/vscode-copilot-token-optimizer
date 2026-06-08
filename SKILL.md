@@ -42,19 +42,7 @@ curl -o .github/copilot-instructions.md https://raw.githubusercontent.com/saiful
 
 Or manually create `.github/copilot-instructions.md` in your project root.
 
-### Step 2: Configure VS Code Settings
-
-Add to your VS Code `settings.json`:
-
-```json
-{
-  "github.copilot.advanced.length": 500,
-  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "github.copilot.advanced.inlineSuggestCount": 3
-}
-```
-
-### Step 3: Use Concise Prompts
+### Step 2: Use Concise Prompts
 
 ```
 BEFORE (150 tokens):
@@ -405,8 +393,7 @@ bash install.sh
 ### Option 2: Manual Install
 
 1. Copy `copilot-instructions.md` to `.github/copilot-instructions.md`
-2. Add settings from `settings.json` to VS Code settings
-3. Restart VS Code
+2. Restart VS Code
 
 ### Option 3: VS Code Extension (Coming Soon)
 
@@ -490,23 +477,6 @@ Create `.github/copilot-instructions.md` in your project:
 ```
 
 ---
-
-## VS Code Settings
-
-Add to your `settings.json`:
-
-```json
-{
-  "github.copilot.advanced.length": 500,
-  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "github.copilot.advanced.inlineSuggestCount": 3,
-  "editor.suggest.showMethods": false,
-  "editor.suggest.showFunctions": false,
-  "editor.suggest.showVariables": false,
-  "editor.parameterHints.enabled": false,
-  "editor.hover.enabled": false
-}
-```
 
 ---
 

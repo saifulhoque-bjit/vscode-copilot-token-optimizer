@@ -1,13 +1,5 @@
 # Copilot Instructions
 
-## IMPORTANT: Load Karpathy's Coding Guidelines
-
-Before writing any code, you MUST read and follow the coding guidelines in `KARPATHY_SKILL.md` in this repository. These are Andrej Karpathy's principles from nanoGPT, minGPT, and llm.c. Every code suggestion you make must follow these guidelines.
-
-To load the guidelines, read the file: `.github/KARPATHY_SKILL.md`
-
----
-
 ## Response Style
 
 - Be concise: 3-5 sentences max for explanations
@@ -18,7 +10,7 @@ To load the guidelines, read the file: `.github/KARPATHY_SKILL.md`
 
 ## Code Generation Rules
 
-When generating code, ALWAYS follow these rules (from Karpathy's guidelines):
+When generating code, ALWAYS follow these rules:
 
 1. **Simplicity first** - If you can't explain it to a junior dev, simplify it
 2. **One file is better than five** - Keep it self-contained

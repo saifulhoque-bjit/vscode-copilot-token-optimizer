@@ -53,14 +53,13 @@ Savings: 80% 🎉
 | Feature | Description | Savings |
 |---------|-------------|---------|
 | 🧠 **Smart Instructions** | Custom instructions that teach Copilot to be concise | 30-50% |
-| ⚙️ **Optimized Settings** | VS Code settings that reduce context window | 20-30% |
 | 🗜️ **Context Compression** | Scripts to compress code before asking | 60-80% |
 | 📊 **Structured Output** | Request JSON/tables instead of paragraphs | 40-60% |
 | 🔄 **Cache Optimization** | Structure prompts for better caching | 20-40% |
 | 📝 **Prompt Templates** | Pre-built templates for common tasks | 30-50% |
 | 🎯 **Content-Aware Routing** | Different strategies for different content types | 40-60% |
 | 📈 **Token Analytics** | Track your savings over time | - |
-| 🧹 **Karpathy's Guidelines** | Clean coding principles (auto-installed) | Code quality |
+| 🧹 **Karpathy's Guidelines** | Clean coding principles (auto-installed globally) | Code quality |
 
 </div>
 
@@ -136,19 +135,7 @@ GitHub Copilot reads `.github/copilot-instructions.md` and uses it to guide resp
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2. VS Code Settings (Automatic)
-
-Key settings that reduce token usage:
-
-```json
-{
-  "github.copilot.advanced.length": 500,  // Limit response length
-  "github.copilot.chat.codeGeneration.useInstructionFiles": true,  // Enable instructions
-  "chat.useAgentsMdFile": true  // Reduce suggestions
-}
-```
-
-### 3. Context Compression (Manual)
+### 2. Context Compression (Manual)
 
 Compress code files before asking Copilot:
 
@@ -485,7 +472,7 @@ Reduction: 94.7%
 
 ### Q: Does this work with GitHub Copilot extension?
 
-**A:** Yes! The custom instructions and VS Code settings work directly with the GitHub Copilot extension. No additional software needed.
+**A:** Yes! The custom instructions work directly with the GitHub Copilot extension. No additional software needed.
 
 ### Q: How much can I save?
 
@@ -497,7 +484,7 @@ Reduction: 94.7%
 
 ### Q: Do I need to install anything?
 
-**A:** For basic usage (custom instructions + settings), **no installation needed**. Just install and restart VS Code.
+**A:** Just run the one-command install and restart VS Code. That's it!
 
 ### Q: Can I use this with other AI extensions?
 
