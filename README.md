@@ -527,7 +527,7 @@ Reduction: 94.7%
 
 ### Q: Do I need to install anything?
 
-**A:** For basic usage (custom instructions + settings), **no installation needed**. Just copy files and restart VS Code.
+**A:** For basic usage (custom instructions + settings), **no installation needed**. Just install and restart VS Code.
 
 ### Q: Can I use this with other AI extensions?
 
@@ -577,12 +577,6 @@ We welcome contributions! Here's how:
 - 🔄 Auto-compression on save
 - 📝 More prompt templates
 - 🎨 VS Code theme integration
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
