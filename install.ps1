@@ -20,46 +20,70 @@ Write-Host "============================================================" -Foreg
 Write-Host ""
 
 # Create .github directory
-Write-Host "[1/4] Creating .github directory..." -ForegroundColor Yellow
+Write-Host "[1/5] Creating .github directory..." -ForegroundColor Yellow
 if (!(Test-Path ".github")) {
     New-Item -ItemType Directory -Path ".github" | Out-Null
 }
 Write-Host "      Done!" -ForegroundColor Green
 
 # Download copilot-instructions.md
-Write-Host "[2/4] Downloading Copilot custom instructions..." -ForegroundColor Yellow
+Write-Host "[2/5] Downloading Copilot custom instructions..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile ".github/copilot-instructions.md"
 Write-Host "      Done!" -ForegroundColor Green
 
 # Download Karpathy's coding guidelines
-Write-Host "[3/4] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
+Write-Host "[3/5] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile ".github/KARPATHY_SKILL.md"
 Write-Host "      Done!" -ForegroundColor Green
 
-# Show VS Code settings
-Write-Host "[4/4] VS Code Settings" -ForegroundColor Yellow
-Write-Host "      Add these to your VS Code settings.json:" -ForegroundColor White
-Write-Host ""
-Write-Host '      {' -ForegroundColor Gray
-Write-Host '        "github.copilot.advanced.length": 500,' -ForegroundColor Gray
-Write-Host '        "github.copilot.chat.codeGeneration.useInstructionFiles": true,' -ForegroundColor Gray
-Write-Host '        "github.copilot.advanced.inlineSuggestCount": 3' -ForegroundColor Gray
-Write-Host '      }' -ForegroundColor Gray
-Write-Host ""
+# Update VS Code settings
+Write-Host "[4/5] Updating VS Code settings..." -ForegroundColor Yellow
+
+$VscSettingsPath = "$env:APPDATA\Code\User\settings.json"
+
+# Create settings file if it doesn't exist
+if (!(Test-Path $VscSettingsPath)) {
+    "{}" | Out-File -FilePath $VscSettingsPath -Encoding UTF8
+}
+
+# Read existing settings
+try {
+    $settings = Get-Content $VscSettingsPath -Raw | ConvertFrom-Json
+} catch {
+    $settings = New-Object PSObject
+}
+
+# Add/update settings
+$settings | Add-Member -NotePropertyName "github.copilot.advanced.length" -NotePropertyValue 500 -Force
+$settings | Add-Member -NotePropertyName "github.copilot.chat.codeGeneration.useInstructionFiles" -NotePropertyValue $true -Force
+$settings | Add-Member -NotePropertyName "github.copilot.advanced.inlineSuggestCount" -NotePropertyValue 3 -Force
+
+# Write back
+$settings | ConvertTo-Json -Depth 10 | Out-File -FilePath $VscSettingsPath -Encoding UTF8
+
+Write-Host "      VS Code settings updated!" -ForegroundColor Green
 
 # Summary
+Write-Host ""
+Write-Host "[5/5] Installation Complete!" -ForegroundColor Green
+Write-Host ""
 Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "  INSTALLATION COMPLETE!" -ForegroundColor Green
+Write-Host "  WHAT WAS INSTALLED" -ForegroundColor Cyan
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Files installed:" -ForegroundColor White
 Write-Host "    .github/copilot-instructions.md  (token optimization + loads Karpathy)" -ForegroundColor Gray
 Write-Host "    .github/KARPATHY_SKILL.md        (Karpathy's coding principles)" -ForegroundColor Gray
 Write-Host ""
+Write-Host "  VS Code settings updated:" -ForegroundColor White
+Write-Host "    github.copilot.advanced.length = 500" -ForegroundColor Gray
+Write-Host "    github.copilot.chat.codeGeneration.useInstructionFiles = true" -ForegroundColor Gray
+Write-Host "    github.copilot.advanced.inlineSuggestCount = 3" -ForegroundColor Gray
+Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray
 Write-Host '    2. Use concise prompts: "Sum even nums. Handle edge cases."' -ForegroundColor Gray
-Write-Host "    3. Check guidelines: cat .github/karpathy-guidelines.md" -ForegroundColor Gray
+Write-Host "    3. Check guidelines: cat .github/KARPATHY_SKILL.md" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  SAVINGS: 30-60% fewer tokens per Copilot interaction" -ForegroundColor Green
 Write-Host ""
