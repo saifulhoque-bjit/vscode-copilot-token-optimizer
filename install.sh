@@ -72,7 +72,6 @@ except:
 # Optimization settings
 settings['github.copilot.advanced.length'] = 500
 settings['github.copilot.chat.codeGeneration.useInstructionFiles'] = True
-settings['github.copilot.advanced.inlineSuggestCount'] = 3
 
 # Enable AGENTS.md support
 settings['chat.useAgentsMdFile'] = True
@@ -105,7 +104,6 @@ echo ""
 echo "  VS Code settings updated:"
 echo "    github.copilot.advanced.length = 500"
 echo "    github.copilot.chat.codeGeneration.useInstructionFiles = true"
-echo "    github.copilot.advanced.inlineSuggestCount = 3"
 echo "    chat.useAgentsMdFile = true"
 echo ""
 echo "  How it works:"

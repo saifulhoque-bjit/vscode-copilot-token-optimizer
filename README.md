@@ -143,7 +143,7 @@ Key settings that reduce token usage:
 {
   "github.copilot.advanced.length": 500,  // Limit response length
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,  // Enable instructions
-  "github.copilot.advanced.inlineSuggestCount": 3  // Reduce suggestions
+  "chat.useAgentsMdFile": true  // Reduce suggestions
 }
 ```
 

@@ -1,7 +1,7 @@
 {
   "github.copilot.advanced.length": 500,
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "github.copilot.advanced.inlineSuggestCount": 3,
+  "chat.useAgentsMdFile": true,
   "editor.suggest.showMethods": false,
   "editor.suggest.showFunctions": false,
   "editor.suggest.showVariables": false,

@@ -54,7 +54,6 @@ try {
 # Add/update settings
 $settings | Add-Member -NotePropertyName "github.copilot.advanced.length" -NotePropertyValue 500 -Force
 $settings | Add-Member -NotePropertyName "github.copilot.chat.codeGeneration.useInstructionFiles" -NotePropertyValue $true -Force
-$settings | Add-Member -NotePropertyName "github.copilot.advanced.inlineSuggestCount" -NotePropertyValue 3 -Force
 $settings | Add-Member -NotePropertyName "chat.useAgentsMdFile" -NotePropertyValue $true -Force
 
 # Write back
@@ -75,7 +74,6 @@ Write-Host ""
 Write-Host "  VS Code settings updated:" -ForegroundColor White
 Write-Host "    github.copilot.advanced.length = 500" -ForegroundColor Gray
 Write-Host "    github.copilot.chat.codeGeneration.useInstructionFiles = true" -ForegroundColor Gray
-Write-Host "    github.copilot.advanced.inlineSuggestCount = 3" -ForegroundColor Gray
 Write-Host "    chat.useAgentsMdFile = true" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  How it works:" -ForegroundColor White
