@@ -33,7 +33,7 @@ Write-Host "      Done!" -ForegroundColor Green
 
 # Download Karpathy's coding guidelines
 Write-Host "[3/4] Downloading Karpathy's coding guidelines..." -ForegroundColor Yellow
-Invoke-WebRequest -Uri "$BaseUrl/karpathy-coding-guidelines.md" -OutFile ".github/karpathy-guidelines.md"
+Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile ".github/KARPATHY_SKILL.md"
 Write-Host "      Done!" -ForegroundColor Green
 
 # Show VS Code settings
@@ -53,8 +53,8 @@ Write-Host "  INSTALLATION COMPLETE!" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Files installed:" -ForegroundColor White
-Write-Host "    .github/copilot-instructions.md  (token optimization)" -ForegroundColor Gray
-Write-Host "    .github/karpathy-guidelines.md   (clean coding)" -ForegroundColor Gray
+Write-Host "    .github/copilot-instructions.md  (token optimization + loads Karpathy)" -ForegroundColor Gray
+Write-Host "    .github/KARPATHY_SKILL.md        (Karpathy's coding principles)" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray

@@ -29,7 +29,7 @@ echo "      Done!"
 
 # Download Karpathy's coding guidelines
 echo "[3/4] Downloading Karpathy's coding guidelines..."
-curl -fsSL "$BASE_URL/karpathy-coding-guidelines.md" -o .github/karpathy-guidelines.md
+curl -fsSL "$BASE_URL/KARPATHY_SKILL.md" -o .github/KARPATHY_SKILL.md
 echo "      Done!"
 
 # Show VS Code settings
@@ -49,8 +49,8 @@ echo "  INSTALLATION COMPLETE!"
 echo "============================================================"
 echo ""
 echo "  Files installed:"
-echo "    .github/copilot-instructions.md  (token optimization)"
-echo "    .github/karpathy-guidelines.md   (clean coding)"
+echo "    .github/copilot-instructions.md  (token optimization + loads Karpathy)"
+echo "    .github/KARPATHY_SKILL.md        (Karpathy's coding principles)"
 echo ""
 echo "  Quick Start:"
 echo "    1. Restart VS Code"

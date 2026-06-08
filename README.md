@@ -11,7 +11,7 @@
 
 **Save money. Save tokens. Code faster.**
 
-**Now includes [Karpathy's Coding Guidelines](karpathy-coding-guidelines.md)!**
+**Now includes [Karpathy's Coding Guidelines](KARPATHY_SKILL.md)!**
 
 [Quick Start](#-quick-start-30-seconds) • [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [FAQ](#-faq)
 
@@ -108,7 +108,7 @@ Use concise prompts in Copilot Chat:
 ```
 .github/
 ├── copilot-instructions.md     # Token optimization (auto-loaded by Copilot)
-└── karpathy-guidelines.md      # Karpathy's clean coding principles
+└── KARPATHY_SKILL.md      # Karpathy's clean coding principles
 ```
 
 The install script automatically installs Karpathy's coding guidelines alongside the token optimizer. These guidelines teach Copilot to write clean, simple, readable code following Andrej Karpathy's philosophy from nanoGPT, minGPT, and llm.c.
