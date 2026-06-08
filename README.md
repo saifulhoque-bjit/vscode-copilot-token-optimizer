@@ -75,7 +75,12 @@ Savings: 80% 🎉
 iwr -useb https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.ps1 | iex
 ```
 
-**Linux / Mac / Git Bash:**
+**Windows (CMD):**
+```cmd
+curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
+```
+
+**Linux / Mac:**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
 ```
