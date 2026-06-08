@@ -13,7 +13,7 @@
 
 **Now includes [Karpathy's Coding Guidelines](karpathy-coding-guidelines.md)!**
 
-[Quick Start](#-quick-start-2-minutes) • [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [FAQ](#-faq)
+[Quick Start](#-quick-start-30-seconds) • [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [FAQ](#-faq)
 
 ---
 
@@ -68,16 +68,11 @@ Savings: 80% 🎉
 
 ## 🚀 Quick Start (30 seconds)
 
-### One-Command Install
+### Option 1: One-Command Install
 
-**Windows (PowerShell):**
+**Windows (PowerShell / CMD):**
 ```powershell
 iwr -useb https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.ps1 | iex
-```
-
-**Windows (CMD):**
-```cmd
-curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
 ```
 
 **Linux / Mac:**
@@ -85,15 +80,12 @@ curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-tok
 curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
 ```
 
-### Manual Install (Alternative)
+### Option 2: Git Clone
 
 ```bash
 git clone https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer.git
 cd vscode-copilot-token-optimizer
-# Windows:
-install.bat
-# Linux/Mac:
-bash install.sh
+bash install.sh   # or install.bat on Windows
 ```
 
 ### Step 2: Restart VS Code
@@ -441,30 +433,7 @@ python scripts/compress_context.py large_file.py > compressed.txt
 
 ## 📦 Installation
 
-### Option 1: Quick Install (Recommended)
-
-```bash
-# Clone repository
-git clone https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer.git
-cd vscode-copilot-token-optimizer
-
-# Run install script
-# Windows:
-install.bat
-
-# Linux/Mac:
-bash install.sh
-```
-
-### Option 2: Manual Install
-
-1. Copy `copilot-instructions.md` to `.github/copilot-instructions.md`
-2. Add settings from `settings.json` to VS Code settings
-3. Restart VS Code
-
-### Option 3: VS Code Extension (Coming Soon)
-
-Stay tuned for a native VS Code extension!
+See [Quick Start](#-quick-start-30-seconds) above for one-command install.
 
 ---
 
