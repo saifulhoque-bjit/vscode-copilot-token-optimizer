@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # VS Code Copilot Token Optimizer + Karpathy's Coding Guidelines
-# Usage: bash install.sh
-
+# One-command install: curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
 set -e
+
+REPO="saifulhoque-bjit/vscode-copilot-token-optimizer"
+BRANCH="main"
+BASE_URL="https://raw.githubusercontent.com/$REPO/$BRANCH"
 
 echo ""
 echo "============================================================"
@@ -15,97 +18,48 @@ echo ""
 echo "============================================================"
 echo ""
 
-# Check if .github directory exists
-if [ ! -d ".github" ]; then
-    echo "[1/5] Creating .github directory..."
-    mkdir -p .github
-else
-    echo "[1/5] .github directory exists"
-fi
+# Create .github directory
+echo "[1/4] Creating .github directory..."
+mkdir -p .github
 
-# Copy custom instructions
-echo "[2/5] Installing Copilot custom instructions..."
-if [ -f ".github/copilot-instructions.md" ]; then
-    echo "      .github/copilot-instructions.md already exists"
-    read -p "      Overwrite? (y/N): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        cp copilot-instructions.md .github/
-        echo "      Done!"
-    else
-        echo "      Skipped"
-    fi
-else
-    cp copilot-instructions.md .github/
-    echo "      Done!"
-fi
+# Download copilot-instructions.md
+echo "[2/4] Downloading Copilot custom instructions..."
+curl -fsSL "$BASE_URL/copilot-instructions.md" -o .github/copilot-instructions.md
+echo "      Done!"
 
-# Copy Karpathy's coding guidelines
-echo "[3/5] Installing Karpathy's coding guidelines..."
-if [ -f ".github/karpathy-guidelines.md" ]; then
-    echo "      .github/karpathy-guidelines.md already exists"
-    read -p "      Overwrite? (y/N): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        cp karpathy-coding-guidelines.md .github/karpathy-guidelines.md
-        echo "      Done!"
-    else
-        echo "      Skipped"
-    fi
-else
-    cp karpathy-coding-guidelines.md .github/karpathy-guidelines.md
-    echo "      Done!"
-fi
+# Download Karpathy's coding guidelines
+echo "[3/4] Downloading Karpathy's coding guidelines..."
+curl -fsSL "$BASE_URL/karpathy-coding-guidelines.md" -o .github/karpathy-guidelines.md
+echo "      Done!"
 
-# Copy VS Code settings
-echo "[4/5] VS Code Settings"
+# Show VS Code settings
+echo "[4/4] VS Code Settings"
 echo "      Add these to your VS Code settings.json:"
 echo ""
-cat settings.json
+echo '      {'
+echo '        "github.copilot.advanced.length": 500,'
+echo '        "github.copilot.chat.codeGeneration.useInstructionFiles": true,'
+echo '        "github.copilot.advanced.inlineSuggestCount": 3'
+echo '      }'
 echo ""
 
 # Summary
-echo "[5/5] Installation Complete!"
-echo ""
 echo "============================================================"
-echo "  WHAT WAS INSTALLED"
+echo "  INSTALLATION COMPLETE!"
 echo "============================================================"
 echo ""
-echo "  [Copilot Optimization]"
-echo "    .github/copilot-instructions.md"
-echo "      - Concise prompting (3-5 sentences max)"
-echo "      - Structured output (JSON, tables)"
-echo "      - Token saving patterns"
+echo "  Files installed:"
+echo "    .github/copilot-instructions.md  (token optimization)"
+echo "    .github/karpathy-guidelines.md   (clean coding)"
 echo ""
-echo "  [Karpathy's Coding Guidelines]"
-echo "    .github/karpathy-guidelines.md"
-echo "      - Simplicity first"
-echo "      - Readability over cleverness"
-echo "      - Minimal dependencies"
-echo "      - Self-contained code"
+echo "  Quick Start:"
+echo "    1. Restart VS Code"
+echo '    2. Use concise prompts: "Sum even nums. Handle edge cases."'
+echo "    3. Check guidelines: cat .github/karpathy-guidelines.md"
 echo ""
-echo "  [VS Code Settings]"
-echo "    - Response length limit (500 tokens)"
-echo "    - Custom instructions enabled"
-echo "    - Reduced context window"
-echo ""
-echo "============================================================"
-echo "  QUICK START"
-echo "============================================================"
-echo ""
-echo "  1. Restart VS Code to load custom instructions"
-echo ""
-echo "  2. Use concise prompts:"
-echo "     BEFORE: \"Can you please help me write a function...\""
-echo "     AFTER:  \"Write function: sum even numbers in list.\""
-echo ""
-echo "  3. Compress code before asking:"
-echo "     python scripts/compress_context.py myfile.py"
-echo ""
-echo "  4. Check Karpathy's guidelines:"
-echo "     cat .github/karpathy-guidelines.md"
-echo ""
-echo "============================================================"
 echo "  SAVINGS: 30-60% fewer tokens per Copilot interaction"
+echo ""
+echo "============================================================"
+echo "  GitHub: https://github.com/$REPO"
 echo "============================================================"
 echo ""

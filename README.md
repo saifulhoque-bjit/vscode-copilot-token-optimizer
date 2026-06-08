@@ -66,19 +66,27 @@ Savings: 80% 🎉
 
 ---
 
-## 🚀 Quick Start (2 minutes)
+## 🚀 Quick Start (30 seconds)
 
-### Step 1: Install
+### One-Command Install
+
+**Windows (PowerShell):**
+```powershell
+iwr -useb https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.ps1 | iex
+```
+
+**Linux / Mac / Git Bash:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
+```
+
+### Manual Install (Alternative)
 
 ```bash
-# Clone the repository
 git clone https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer.git
 cd vscode-copilot-token-optimizer
-
-# Run installation script
 # Windows:
 install.bat
-
 # Linux/Mac:
 bash install.sh
 ```
