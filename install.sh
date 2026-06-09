@@ -31,32 +31,41 @@ fi
 
 VSCODE_PROMPTS_DIR="$VSCODE_USER_DATA/prompts"
 
-# Create prompts directory if it doesn't exist
-echo "[1/1] Creating global Karpathy instructions..."
+echo "[1/4] Installing Karpathy's coding guidelines (global)..."
 mkdir -p "$VSCODE_PROMPTS_DIR"
-
-# Download Karpathy instructions to VS Code user prompts folder
 curl -fsSL "$BASE_URL/KARPATHY_SKILL.md" -o "$VSCODE_PROMPTS_DIR/global.instructions.md"
 echo "      Saved to: $VSCODE_PROMPTS_DIR/global.instructions.md"
 echo "      Done!"
-echo ""
+
+echo "[2/4] Creating .github directory..."
+mkdir -p .github/prompts
+
+echo "[3/4] Installing Copilot custom instructions..."
+curl -fsSL "$BASE_URL/copilot-instructions.md" -o ".github/copilot-instructions.md"
+echo "      Saved to: .github/copilot-instructions.md"
+echo "      Done!"
+
+echo "[4/4] Installing /optimize slash command..."
+curl -fsSL "$BASE_URL/.github/prompts/optimize.prompt.md" -o ".github/prompts/optimize.prompt.md"
+echo "      Done!"
 
 # Summary
+echo ""
 echo "============================================================"
 echo "  INSTALLATION COMPLETE!"
 echo "============================================================"
 echo ""
-echo "  File installed:"
-echo "    $VSCODE_PROMPTS_DIR/global.instructions.md"
-echo ""
-echo "  How it works:"
-echo "    - global.instructions.md is loaded GLOBALLY by VS Code"
-echo "    - It applies to ALL projects automatically"
-echo "    - Copilot will follow Karpathy's coding principles"
+echo "  Files installed:"
+echo "    Global: $VSCODE_PROMPTS_DIR/global.instructions.md"
+echo "    Project: .github/copilot-instructions.md"
+echo "    Slash command:"
+echo "      .github/prompts/optimize.prompt.md    → /optimize (all 3, full session)"
 echo ""
 echo "  Quick Start:"
 echo "    1. Restart VS Code"
 echo '    2. Use concise prompts: "Sum even nums. Handle edge cases."'
+echo "    3. Use /optimize in Copilot Chat:"
+echo "       /optimize                       ← enables all 3 optimizations for the whole session"
 echo ""
 echo "  SAVINGS: 30-60% fewer tokens per Copilot interaction"
 echo ""

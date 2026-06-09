@@ -23,15 +23,24 @@ Write-Host ""
 $VscUserData = "$env:APPDATA\Code\User"
 $VscPromptsDir = "$VscUserData\prompts"
 
-# Create prompts directory if it doesn't exist
-Write-Host "[1/1] Creating global Karpathy instructions..." -ForegroundColor Yellow
+Write-Host "[1/4] Installing Karpathy's coding guidelines (global)..." -ForegroundColor Yellow
 if (!(Test-Path $VscPromptsDir)) {
     New-Item -ItemType Directory -Path $VscPromptsDir -Force | Out-Null
 }
-
-# Download Karpathy instructions to VS Code user prompts folder
 Invoke-WebRequest -Uri "$BaseUrl/KARPATHY_SKILL.md" -OutFile "$VscPromptsDir\global.instructions.md"
 Write-Host "      Saved to: $VscPromptsDir\global.instructions.md" -ForegroundColor Gray
+Write-Host "      Done!" -ForegroundColor Green
+
+Write-Host "[2/4] Creating .github directory..." -ForegroundColor Yellow
+New-Item -ItemType Directory -Path ".github\prompts" -Force | Out-Null
+
+Write-Host "[3/4] Installing Copilot custom instructions..." -ForegroundColor Yellow
+Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile ".github\copilot-instructions.md"
+Write-Host "      Saved to: .github\copilot-instructions.md" -ForegroundColor Gray
+Write-Host "      Done!" -ForegroundColor Green
+
+Write-Host "[4/4] Installing /optimize slash command..." -ForegroundColor Yellow
+Invoke-WebRequest -Uri "$BaseUrl/.github/prompts/optimize.prompt.md" -OutFile ".github\prompts\optimize.prompt.md"
 Write-Host "      Done!" -ForegroundColor Green
 
 # Summary
@@ -40,17 +49,17 @@ Write-Host "============================================================" -Foreg
 Write-Host "  INSTALLATION COMPLETE!" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  File installed:" -ForegroundColor White
-Write-Host "    $VscPromptsDir\global.instructions.md" -ForegroundColor Gray
-Write-Host ""
-Write-Host "  How it works:" -ForegroundColor White
-Write-Host "    - global.instructions.md is loaded GLOBALLY by VS Code" -ForegroundColor Gray
-Write-Host "    - It applies to ALL projects automatically" -ForegroundColor Gray
-Write-Host "    - Copilot will follow Karpathy's coding principles" -ForegroundColor Gray
+Write-Host "  Files installed:" -ForegroundColor White
+Write-Host "    Global: $VscPromptsDir\global.instructions.md" -ForegroundColor Gray
+Write-Host "    Project: .github\copilot-instructions.md" -ForegroundColor Gray
+Write-Host "    Slash command:" -ForegroundColor Gray
+Write-Host "      .github\prompts\optimize.prompt.md    -> /optimize (all 3, full session)" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray
 Write-Host '    2. Use concise prompts: "Sum even nums. Handle edge cases."' -ForegroundColor Gray
+Write-Host "    3. Use /optimize in Copilot Chat:" -ForegroundColor Gray
+Write-Host "       /optimize                       <- enables all 3 optimizations for the whole session" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  SAVINGS: 30-60% fewer tokens per Copilot interaction" -ForegroundColor Green
 Write-Host ""

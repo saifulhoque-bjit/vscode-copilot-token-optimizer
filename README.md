@@ -58,6 +58,7 @@ Savings: 80% 🎉
 | 🔄 **Cache Optimization** | Structure prompts for better caching | 20-40% |
 | 📝 **Prompt Templates** | Pre-built templates for common tasks | 30-50% |
 | 🎯 **Content-Aware Routing** | Different strategies for different content types | 40-60% |
+| ⚡ **Slash Command** | `/optimize` — one command, all 3 optimizations, full session | 60-80% |
 | 📈 **Token Analytics** | Track your savings over time | - |
 | 🧹 **Karpathy's Guidelines** | Clean coding principles (auto-installed globally) | Code quality |
 
@@ -101,6 +102,22 @@ Use concise prompts in Copilot Chat:
 ```
 
 **That's it! You're now saving 30-60% on every Copilot interaction.**
+
+### Step 4: Use Slash Commands (Optional)
+
+One Copilot Chat slash command. Type `/optimize` in Copilot Chat to activate all 3 optimizations for the whole session.
+
+| Command | What it does | Savings |
+|---------|-------------|---------|
+| `/optimize` | Activate compress + cache-align + CCR as persistent session rules | 60-80% |
+
+**Usage — just `/optimize` once, then code normally:**
+```
+/optimize                              ← activate once
+What does src/auth.py do?              ← automatically compressed
+How does the login function work?      ← answers from signatures, drills down if needed
+Explain the token validation flow      ← references previous answers, no repeats
+```
 
 ### What Gets Installed
 
