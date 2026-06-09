@@ -231,7 +231,7 @@ A: Yes. Open Copilot Chat, type `/optimize`, press Enter. Do this once at the st
 A: Say "stop optimizing" in chat.
 
 **Q: What if I don't run `/optimize`?**
-A: Everything still works — custom instructions and Karpathy guidelines are always active. But the automatic compression (the biggest saver) only kicks in when `/optimize` is running.
+A: Karpathy's guidelines are always active globally. But the automatic compression (the biggest saver) only kicks in when `/optimize` is running.
 
 **Q: Is this free?**
 A: Yes. MIT License.
