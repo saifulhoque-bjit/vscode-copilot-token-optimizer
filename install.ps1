@@ -22,6 +22,7 @@ Write-Host ""
 # VS Code user data path on Windows
 $VscUserData = "$env:APPDATA\Code\User"
 $VscPromptsDir = "$VscUserData\prompts"
+$SkillsDir = "$env:USERPROFILE\.copilot\skills\optimize"
 
 Write-Host "[1/4] Installing Karpathy's coding guidelines (global)..." -ForegroundColor Yellow
 if (!(Test-Path $VscPromptsDir)) {
@@ -32,7 +33,7 @@ Write-Host "      Saved to: $VscPromptsDir\global.instructions.md" -ForegroundCo
 Write-Host "      Done!" -ForegroundColor Green
 
 Write-Host "[2/4] Creating .github directory..." -ForegroundColor Yellow
-New-Item -ItemType Directory -Path ".github\prompts" -Force | Out-Null
+New-Item -ItemType Directory -Path ".github" -Force | Out-Null
 
 Write-Host "[3/4] Installing Copilot custom instructions..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri "$BaseUrl/copilot-instructions.md" -OutFile ".github\copilot-instructions.md"
@@ -40,26 +41,26 @@ Write-Host "      Saved to: .github\copilot-instructions.md" -ForegroundColor Gr
 Write-Host "      Done!" -ForegroundColor Green
 
 Write-Host "[4/4] Installing /optimize slash command..." -ForegroundColor Yellow
-Invoke-WebRequest -Uri "$BaseUrl/.github/prompts/optimize.prompt.md" -OutFile ".github\prompts\optimize.prompt.md"
+New-Item -ItemType Directory -Path $SkillsDir -Force | Out-Null
+Invoke-WebRequest -Uri "$BaseUrl/skills/optimize/SKILL.md" -OutFile "$SkillsDir\SKILL.md"
+Write-Host "      Saved to: $SkillsDir\SKILL.md" -ForegroundColor Gray
 Write-Host "      Done!" -ForegroundColor Green
 
 # Summary
 Write-Host ""
 Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "  INSTALLATION COMPLETE!" -ForegroundColor Green
+Write-Host "  INSTALLATION COMPLETE" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Files installed:" -ForegroundColor White
 Write-Host "    Global: $VscPromptsDir\global.instructions.md" -ForegroundColor Gray
 Write-Host "    Project: .github\copilot-instructions.md" -ForegroundColor Gray
-Write-Host "    Slash command:" -ForegroundColor Gray
-Write-Host "      .github\prompts\optimize.prompt.md    -> /optimize (all 3, full session)" -ForegroundColor Gray
+Write-Host "    Skill:   $SkillsDir\SKILL.md" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray
-Write-Host '    2. Use concise prompts: "Sum even nums. Handle edge cases."' -ForegroundColor Gray
-Write-Host "    3. Use /optimize in Copilot Chat:" -ForegroundColor Gray
-Write-Host "       /optimize                       <- enables all 3 optimizations for the whole session" -ForegroundColor Gray
+Write-Host "    2. In Copilot Chat, type: /optimize" -ForegroundColor Gray
+Write-Host "    3. Code normally. Every file question auto-compresses." -ForegroundColor Gray
 Write-Host ""
 Write-Host "  SAVINGS: 30-60% fewer tokens per Copilot interaction" -ForegroundColor Green
 Write-Host ""

@@ -30,6 +30,7 @@ else
 fi
 
 VSCODE_PROMPTS_DIR="$VSCODE_USER_DATA/prompts"
+SKILLS_DIR="$HOME/.copilot/skills/optimize"
 
 echo "[1/4] Installing Karpathy's coding guidelines (global)..."
 mkdir -p "$VSCODE_PROMPTS_DIR"
@@ -38,7 +39,7 @@ echo "      Saved to: $VSCODE_PROMPTS_DIR/global.instructions.md"
 echo "      Done!"
 
 echo "[2/4] Creating .github directory..."
-mkdir -p .github/prompts
+mkdir -p .github
 
 echo "[3/4] Installing Copilot custom instructions..."
 curl -fsSL "$BASE_URL/copilot-instructions.md" -o ".github/copilot-instructions.md"
@@ -46,26 +47,26 @@ echo "      Saved to: .github/copilot-instructions.md"
 echo "      Done!"
 
 echo "[4/4] Installing /optimize slash command..."
-curl -fsSL "$BASE_URL/.github/prompts/optimize.prompt.md" -o ".github/prompts/optimize.prompt.md"
+mkdir -p "$SKILLS_DIR"
+curl -fsSL "$BASE_URL/skills/optimize/SKILL.md" -o "$SKILLS_DIR/SKILL.md"
+echo "      Saved to: $SKILLS_DIR/SKILL.md"
 echo "      Done!"
 
 # Summary
 echo ""
 echo "============================================================"
-echo "  INSTALLATION COMPLETE!"
+echo "  INSTALLATION COMPLETE"
 echo "============================================================"
 echo ""
 echo "  Files installed:"
 echo "    Global: $VSCODE_PROMPTS_DIR/global.instructions.md"
 echo "    Project: .github/copilot-instructions.md"
-echo "    Slash command:"
-echo "      .github/prompts/optimize.prompt.md    → /optimize (all 3, full session)"
+echo "    Skill:   $SKILLS_DIR/SKILL.md"
 echo ""
 echo "  Quick Start:"
 echo "    1. Restart VS Code"
-echo '    2. Use concise prompts: "Sum even nums. Handle edge cases."'
-echo "    3. Use /optimize in Copilot Chat:"
-echo "       /optimize                       ← enables all 3 optimizations for the whole session"
+echo "    2. In Copilot Chat, type: /optimize"
+echo "    3. Code normally. Every file question auto-compresses."
 echo ""
 echo "  SAVINGS: 30-60% fewer tokens per Copilot interaction"
 echo ""

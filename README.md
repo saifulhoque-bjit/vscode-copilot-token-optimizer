@@ -58,7 +58,7 @@ Savings: 80% 🎉
 | 🔄 **Cache Optimization** | Structure prompts for better caching | 20-40% |
 | 📝 **Prompt Templates** | Pre-built templates for common tasks | 30-50% |
 | 🎯 **Content-Aware Routing** | Different strategies for different content types | 40-60% |
-| ⚡ **Slash Command** | `/optimize` — one command, all 3 optimizations, full session | 60-80% |
+| ⚡ **Slash Command** | `/optimize` — Copilot skill, all 3 optimizations, full session | 60-80% |
 | 📈 **Token Analytics** | Track your savings over time | - |
 | 🧹 **Karpathy's Guidelines** | Clean coding principles (auto-installed globally) | Code quality |
 
@@ -122,13 +122,24 @@ Explain the token validation flow      ← references previous answers, no repea
 ### What Gets Installed
 
 ```
-VS Code User Prompts Folder:
+Global Copilot Skill:
+  Windows: %USERPROFILE%\.copilot\skills\optimize\SKILL.md
+  Linux:   ~/.copilot/skills/optimize/SKILL.md
+  Mac:     ~/.copilot/skills/optimize/SKILL.md
+
+VS Code User Prompts (Karpathy guidelines):
   Windows: %APPDATA%\Code\User\prompts\global.instructions.md
   Linux:   ~/.config/Code/User/prompts/global.instructions.md
   Mac:     ~/Library/Application Support/Code/User/prompts/global.instructions.md
+
+Project:
+  .github/copilot-instructions.md
 ```
 
-The install script automatically installs Karpathy's coding guidelines to VS Code's global prompts folder. These guidelines teach Copilot to write clean, simple, readable code following Andrej Karpathy's philosophy from nanoGPT, minGPT, and llm.c. This applies to ALL projects automatically.
+The install script installs:
+- **`/optimize` skill** to the global Copilot skills folder (shows as a slash command in Copilot Chat)
+- **Karpathy's coding guidelines** to VS Code's global prompts folder (applies to ALL projects)
+- **Custom instructions** to `.github/copilot-instructions.md` (project-level)
 
 ---
 

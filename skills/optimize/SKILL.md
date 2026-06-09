@@ -1,10 +1,10 @@
 ---
-agent: 'agent'
-tools: ['terminal', 'search/codebase']
-description: 'Enable all 3 token optimizations for this session: compress, cache-align, CCR'
+name: optimize
+description: Enable all 3 token optimizations for this session: compress, cache-align, CCR
+argument-hint: ""
 ---
 
-# Session Optimization Mode: ON
+# /optimize
 
 For the **rest of this session**, follow ALL three rules below on every response. These are persistent behavioral rules, not one-time tasks.
 
@@ -45,12 +45,10 @@ Default behavior for code questions:
 | "Review this code" | Signatures first | Yes — read only flagged functions |
 
 **Workflow for every code question:**
-```
 1. Compress → get signatures (60-80% fewer tokens)
 2. Answer from signatures if possible
 3. Retrieve full implementation only for specific functions requested
 4. Reference compressed context for follow-ups
-```
 
 ---
 
