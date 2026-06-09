@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🚀 VS Code Copilot Token Optimizer
+# VS Code Copilot Token Optimizer
 
-### **Reduce GitHub Copilot token usage by 30-60%**
+### Reduce GitHub Copilot token usage by 30-60%
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Version](https://img.shields.io/badge/version-2.0.0-green.svg)
@@ -11,66 +11,28 @@
 
 **Save money. Save tokens. Code faster.**
 
-**Now includes [Karpathy's Coding Guidelines](KARPATHY_SKILL.md)!**
-
-[Quick Start](#-quick-start-30-seconds) • [Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [FAQ](#-faq)
+[Quick Start](#-quick-start) • [How It Works](#-how-it-works) • [/optimize Skill](#-optimize-skill) • [Compression Script](#-compression-script) • [FAQ](#-faq)
 
 ---
 
 </div>
 
-## 🎯 What is this?
+## What Is This?
 
-**VS Code Copilot Token Optimizer** is a collection of **custom instructions, settings, and tools** that automatically reduce GitHub Copilot's token usage by **30-60%** — without changing how you work.
-
-### The Problem
+A **Copilot skill + custom instructions** that automatically reduce GitHub Copilot's token usage. Type `/optimize` once per session, then code normally — every file question gets compressed to function signatures before Copilot answers.
 
 ```
-❌ You ask Copilot: "Can you please help me write a function that takes a list 
-   of numbers and returns the sum of all even numbers in the list? Please make 
-   sure to handle edge cases and add comments explaining the logic."
-
-Tokens used: 150 💸
+❌ Before: Copilot reads your entire 500-line file (2000 tokens)
+✅ After:  Copilot reads 8 function signatures (200 tokens) → same answer
 ```
-
-### The Solution
-
-```
-✅ You ask Copilot: "Sum even numbers in list. Handle edge cases. Add comments."
-
-Tokens used: 30 💰
-Savings: 80% 🎉
-```
-
-**Same result. Fewer tokens. Lower cost.**
 
 ---
 
-## ✨ Features
+## Quick Start
 
-<div align="center">
+### 1. Install
 
-| Feature | Description | Savings |
-|---------|-------------|---------|
-| 🧠 **Smart Instructions** | Custom instructions that teach Copilot to be concise | 30-50% |
-| 🗜️ **Context Compression** | Scripts to compress code before asking | 60-80% |
-| 📊 **Structured Output** | Request JSON/tables instead of paragraphs | 40-60% |
-| 🔄 **Cache Optimization** | Structure prompts for better caching | 20-40% |
-| 📝 **Prompt Templates** | Pre-built templates for common tasks | 30-50% |
-| 🎯 **Content-Aware Routing** | Different strategies for different content types | 40-60% |
-| ⚡ **Slash Command** | `/optimize` — Copilot skill, all 3 optimizations, full session | 60-80% |
-| 📈 **Token Analytics** | Track your savings over time | - |
-| 🧹 **Karpathy's Guidelines** | Clean coding principles (auto-installed globally) | Code quality |
-
-</div>
-
----
-
-## 🚀 Quick Start (30 seconds)
-
-### Option 1: One-Command Install
-
-**Windows (PowerShell / CMD):**
+**Windows (PowerShell):**
 ```powershell
 iwr -useb https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.ps1 | iex
 ```
@@ -80,419 +42,135 @@ iwr -useb https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-toke
 curl -fsSL https://raw.githubusercontent.com/saifulhoque-bjit/vscode-copilot-token-optimizer/main/install.sh | bash
 ```
 
-### Option 2: Git Clone
-
+**Or clone and run locally:**
 ```bash
 git clone https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer.git
 cd vscode-copilot-token-optimizer
-bash install.sh   # or install.bat on Windows
+install.bat          # Windows
+bash install.sh      # Linux / Mac
 ```
 
-### Step 2: Restart VS Code
+### 2. Restart VS Code
 
-Close and reopen VS Code to load the custom instructions.
+### 3. Type `/optimize` in Copilot Chat
 
-### Step 3: Activate /optimize
-
-In Copilot Chat, type `/optimize` to activate all 3 optimizations for the session. Without this, the compression script won't run automatically.
-
-| Command | What it does | Savings |
-|---------|-------------|---------|
-| `/optimize` | Activate compress + cache-align + CCR as persistent session rules | 60-80% |
+That's it. Every file question now auto-compresses for the rest of the session.
 
 ```
-/optimize                               ← activate once per session
-What does src/auth.py do?              ← automatically compressed
-How does the login function work?      ← answers from signatures, drills down if needed
-Explain the token validation flow      ← references previous answers, no repeats
-```
+You:  /optimize
+Copilot: ✅ Optimization mode enabled.
 
-### Step 4: Use Concise Prompts
+You:  What does src/auth.py do?
+Copilot: [reads 8 signatures instead of 500 lines, answers from structure]
 
-Get in the habit of shorter prompts for even more savings:
+You:  How does the login function work?
+Copilot: [drills into just that function, references previous answer]
 
-```
-❌ BEFORE: "Can you please help me write a function that..."
-✅ AFTER:  "Write function: sum even numbers in list."
-```
-
-**Savings: 30-60% on every Copilot interaction.**
-
-### What Gets Installed
-
-```
-Global Copilot Skill:
-  Windows: %USERPROFILE%\.copilot\skills\optimize\
-    SKILL.md              — /optimize slash command rules
-    compress_context.py   — compression script
-  Linux:   ~/.copilot/skills/optimize/
-  Mac:     ~/.copilot/skills/optimize/
-
-VS Code User Prompts (Karpathy guidelines):
-  Windows: %APPDATA%\Code\User\prompts\global.instructions.md
-  Linux:   ~/.config/Code/User/prompts/global.instructions.md
-  Mac:     ~/Library/Application Support/Code/User/prompts/global.instructions.md
-
-Project:
-  .github/copilot-instructions.md
-```
-
-The install script installs:
-- **`/optimize` skill** to the global Copilot skills folder (shows as a slash command in Copilot Chat)
-- **Karpathy's coding guidelines** to VS Code's global prompts folder (applies to ALL projects)
-- **Custom instructions** to `.github/copilot-instructions.md` (project-level)
-
----
-
-## 🧠 How It Works
-
-### 1. Custom Instructions (Automatic)
-
-GitHub Copilot reads `.github/copilot-instructions.md` and uses it to guide responses. Our instructions teach Copilot to:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  CUSTOM INSTRUCTIONS                                        │
-├─────────────────────────────────────────────────────────────┤
-│  ✅ Be concise: 3-5 sentences max                          │
-│  ✅ Use structured output: JSON, tables, bullet points      │
-│  ✅ Avoid repetition and filler words                       │
-│  ✅ Minimize code comments unless critical                  │
-│  ✅ Use short variable names when clear                     │
-│  ✅ Don't repeat the question in your answer                │
-│  ✅ Use abbreviations for common terms                      │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### 2. Context Compression (Manual)
-
-Compress code files before asking Copilot:
-
-```bash
-# Windows
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py
-
-# Linux / Mac
-python ~/.copilot/skills/optimize/compress_context.py myfile.py
-
-# Output: function signatures only (60-80% fewer tokens)
-```
-
-**Example:**
-
-```python
-# Original file (150 lines, 2000 tokens)
-def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
-
-def is_prime(n):
-    if n < 2:
-        return False
-    for i in range(2, int(n**0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-# ... 140 more lines ...
-
-# Compressed output (8 lines, 200 tokens)
-def fibonacci(n) -> ...
-def is_prime(n)
-class DataProcessor:
-    def __init__(self)
-    def process(self)
-    def validate(self)
-```
-
-**Savings: 90%** 🎉
-
----
-
-## 📊 Token Savings Breakdown
-
-### By Technique
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  TECHNIQUE                  │  SAVINGS  │  EXAMPLE          │
-├─────────────────────────────────────────────────────────────┤
-│  Concise Prompting          │  70-80%   │  "Sum even nums"  │
-│  Structured Output          │  40-60%   │  "{params: []}"   │
-│  Context Compression        │  60-80%   │  Signatures only  │
-│  Cache Optimization         │  20-40%   │  Static prefix    │
-│  Content-Aware Routing      │  40-60%   │  Different strats │
-│  Batch Questions            │  50-70%   │  One call         │
-│  Reference Instead Repeat   │  30-50%   │  "Ref: above"     │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### By Task Type
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  TASK               │  WITHOUT  │  WITH   │  SAVINGS        │
-├─────────────────────────────────────────────────────────────┤
-│  Code Explanation   │  150 tok  │  40 tok │  73% ████████░  │
-│  Code Generation    │  200 tok  │  30 tok │  85% █████████░ │
-│  Code Review        │  180 tok  │  25 tok │  86% █████████░ │
-│  Bug Fixing         │  160 tok  │  35 tok │  78% ████████░░ │
-│  Refactoring        │  170 tok  │  45 tok │  74% ████████░░ │
-│  Documentation      │  190 tok  │  50 tok │  74% ████████░░ │
-└─────────────────────────────────────────────────────────────┘
+You:  Explain the token validation flow
+Copilot: [builds on previous answers, no re-explaining]
 ```
 
 ---
 
-## 🎯 Advanced Features (From Headroom)
-
-### 1. CacheAligner Pattern
-
-**What it does:** Structures prompts so the static part comes first, dynamic part last. This enables provider caching (Anthropic cache_control, OpenAI prefix cache).
-
-**How to use:**
+## What Gets Installed
 
 ```
-❌ DON'T (cache misses):
-"Analyze this code: [dynamic user input] [static code context]"
+~/.copilot/skills/optimize/           ← /optimize skill (global, all projects)
+  SKILL.md                            ← slash command rules
+  compress_context.py                 ← compression script
 
-✅ DO (cache hits):
-"Analyze this code: [static code context] [dynamic user input]"
+%APPDATA%/Code/User/prompts/          ← Karpathy's guidelines (global)
+  global.instructions.md
+
+<project>/.github/                    ← Copilot custom instructions (per-project)
+  copilot-instructions.md
 ```
-
-**Savings:** 20-40% on repeated queries
-
-### 2. Content-Aware Routing
-
-**What it does:** Different strategies for different content types (inspired by headroom's ContentRouter).
-
-**How to use:**
-
-```
-For code analysis:
-"Analyze function: {purpose: str, params: [], returns: str}"
-
-For comparisons:
-"Compare approaches: {approach1: [pros], approach2: [pros], recommendation: str}"
-
-For debugging:
-"Debug code: {issue: str, root_cause: str, fix: str}"
-```
-
-**Savings:** 40-60% by using optimal format for each content type
-
-### 3. CCR (Compress-Cache-Retrieve) Pattern
-
-**What it does:** Compress code context, but keep original available for retrieval.
-
-**How to use:**
-
-```bash
-# Step 1: Compress code (Windows)
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py > compressed.txt
-
-# Step 1: Compress code (Linux / Mac)
-python ~/.copilot/skills/optimize/compress_context.py myfile.py > compressed.txt
-
-# Step 2: Ask Copilot with compressed context
-"Explain this code: [paste compressed.txt]"
-
-# Step 3: If Copilot needs more detail, ask for specific function
-"Explain fibonacci function in detail"
-```
-
-**Savings:** 60-80% while maintaining access to full details
-
-### 4. Intelligent Context Scoring
-
-**What it does:** Prioritize context based on importance (inspired by headroom's IntelligentContextManager).
-
-**How to use:**
-
-```
-Priority 1 (Always include):
-- System prompt
-- Current file being edited
-- Error messages
-
-Priority 2 (Include if space allows):
-- Related functions
-- Import statements
-- Type definitions
-
-Priority 3 (Compress or omit):
-- Comments
-- Blank lines
-- Boilerplate code
-```
-
-**Savings:** 30-50% by focusing on high-priority context
-
-### 5. Provider Cache Optimization
-
-**What it does:** Structure prompts to maximize provider caching.
-
-**Anthropic:**
-```
-✅ Static prefix (≥1024 tokens):
-"You are an expert Python developer. Analyze the following code and provide..."
-
-✅ Dynamic suffix:
-"Analyze this specific function: [user input]"
-```
-
-**OpenAI:**
-```
-✅ Static prefix (≥1024 tokens):
-"You are a helpful coding assistant. Your task is to..."
-
-✅ Dynamic suffix:
-"Fix this bug: [user input]"
-```
-
-**Savings:** 20-40% on repeated queries
-
-### 6. Failure Learning Pattern
-
-**What it does:** Learn from past interactions to improve future prompts.
-
-**How to use:**
-
-```
-After getting a bad response:
-❌ DON'T: Ask the same question again
-
-✅ DO: Add context about what went wrong
-"Previous attempt was too verbose. Be more concise."
-```
-
-**Savings:** 10-20% over time as you learn optimal prompts
-
-### 7. Shared Context Pattern
-
-**What it does:** Reuse context across multiple prompts.
-
-**How to use:**
-
-```
-Prompt 1: "Analyze this function: fibonacci"
-Prompt 2: "Ref: fibonacci analysis above. Optimize it."
-Prompt 3: "Ref: fibonacci optimization above. Add tests."
-```
-
-**Savings:** 30-50% by avoiding context repetition
 
 ---
 
-## 🛠️ Usage Patterns
+## How It Works
 
-### Pattern 1: Concise Prompting
+### 1. The `/optimize` Skill (Core Feature)
 
-```
-❌ DON'T (50+ tokens):
-"Can you please write a Python function that takes a string as input 
-and returns the number of vowels in the string? Please make sure to 
-handle both uppercase and lowercase vowels and add appropriate comments."
+A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) installed to `~/.copilot/skills/optimize/`. When you type `/optimize` in Copilot Chat, it activates 3 persistent rules for the session:
 
-✅ DO (15 tokens):
-"Count vowels in string. Handle case. Add comments."
-```
+**Rule 1 — COMPRESS:** Before answering any file question, Copilot runs `compress_context.py` to extract function/class signatures. Answers from the compressed skeleton (60-80% fewer tokens). Only reads full implementations when you ask for specific function details.
 
-**Savings: 70%**
+**Rule 2 — CACHE-ALIGN:** Structures every response with static context first (project structure, conventions) and dynamic content last (the actual answer). Follow-up questions reference previous answers instead of re-explaining.
 
-### Pattern 2: Structured Output
+**Rule 3 — CCR (Compress-Cache-Retrieve):** Compress → answer from signatures → retrieve full details only on demand. The compression is reversible — any function can be expanded to its full implementation when needed.
 
-```
-❌ DON'T (verbose):
-"Explain what this function does and list all the parameters it takes 
-and what it returns."
+### 2. Custom Instructions (Automatic)
 
-✅ DO (structured):
-"Analyze function: {params: [], returns: str, purpose: str}"
-```
+`.github/copilot-instructions.md` teaches Copilot to be concise — 3-5 sentences max, structured output, no filler. Active on any project with this file.
 
-**Savings: 60%**
+### 3. Karpathy's Coding Guidelines (Global)
 
-### Pattern 3: Context Compression
-
-```bash
-# Before asking Copilot (Windows)
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py large_file.py > compressed.txt
-
-# Before asking Copilot (Linux / Mac)
-python ~/.copilot/skills/optimize/compress_context.py large_file.py > compressed.txt
-
-# Ask with compressed context
-"Explain this code: [paste compressed.txt]"
-```
-
-**Savings: 70-80%**
-
-### Pattern 4: Batch Questions
-
-```
-❌ DON'T (multiple calls):
-"What does line 10 do?"
-"What does line 20 do?"
-"What does line 30 do?"
-
-✅ DO (one call):
-"Explain lines 10, 20, 30: {line10: purpose, line20: purpose, line30: purpose}"
-```
-
-**Savings: 66%**
-
-### Pattern 5: Reference Instead of Repeat
-
-```
-❌ DON'T:
-"Look at the function I showed you earlier and tell me..."
-
-✅ DO:
-"Ref: fibonacci function above. Optimize it."
-```
-
-**Savings: 40%**
+Installed to VS Code's global prompts folder. Teaches Copilot clean coding principles: simplicity first, readable variable names, minimal dependencies, self-contained code.
 
 ---
 
-## 📦 Installation
+## `/optimize` Skill
 
-See [Quick Start](#-quick-start-30-seconds) above for one-command install.
+### Location
 
----
-
-## 🔧 Compression Script
-
-The compression script is installed globally with the `/optimize` skill. You can also run it manually:
-
-### Usage
-
-```bash
-# Windows
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py --format json
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py large_file.py --max-lines 50
-
-# Linux / Mac
-python ~/.copilot/skills/optimize/compress_context.py myfile.py
-python ~/.copilot/skills/optimize/compress_context.py myfile.py --format json
-python ~/.copilot/skills/optimize/compress_context.py large_file.py --max-lines 50
 ```
+Windows:  %USERPROFILE%\.copilot\skills\optimize\
+Linux:    ~/.copilot/skills/optimize/
+Mac:      ~/.copilot/skills/optimize/
+```
+
+### Files
+
+| File | Purpose |
+|------|---------|
+| `SKILL.md` | Defines the `/optimize` slash command and its 3 rules |
+| `compress_context.py` | Extracts function/class signatures from code files |
+
+### How the Skill Works
+
+1. You type `/optimize` in Copilot Chat
+2. Copilot reads `SKILL.md` and follows the 3 rules for the rest of the session
+3. When you ask about a file, Copilot runs `compress_context.py` internally
+4. It answers from the compressed signatures (not the full file)
+5. If you ask "how does X work internally?", it reads only that function
 
 ### Supported Languages
 
 | Language | Extension | Compression Method |
 |----------|-----------|-------------------|
-| Python | .py | Function/class signatures |
-| JavaScript | .js, .jsx | Function declarations |
-| TypeScript | .ts, .tsx | Function declarations |
-| Other | * | First N lines + summary |
+| Python | `.py` | AST-based function/class signatures |
+| JavaScript | `.js`, `.jsx` | Function declaration extraction |
+| TypeScript | `.ts`, `.tsx` | Function declaration extraction |
+| Other | `*` | First N lines + summary |
 
-### Example Output
+---
+
+## Compression Script
+
+The script is installed with the skill. You can also run it manually:
+
+```bash
+# Windows
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py
+
+# Linux / Mac
+python ~/.copilot/skills/optimize/compress_context.py myfile.py
+```
+
+### Options
+
+```bash
+compress_context.py <file>                  # text output (default)
+compress_context.py <file> --format json    # JSON output with stats
+compress_context.py <file> --max-lines 50   # limit output lines
+```
+
+### Example
 
 ```
+$ python compress_context.py app.py
+
 def fibonacci(n) -> ...
 def is_prime(n)
 def sum_even_numbers(numbers)
@@ -509,104 +187,68 @@ Reduction: 94.7%
 
 ---
 
-## ❓ FAQ
+## Token Savings
 
-### Q: Does this work with GitHub Copilot extension?
-
-**A:** Yes! The custom instructions work directly with the GitHub Copilot extension. No additional software needed.
-
-### Q: How much can I save?
-
-**A:** Typical savings are **30-60%** depending on your prompting style. Users who write verbose prompts see up to **80% savings**.
-
-### Q: Does this affect Copilot's code suggestions?
-
-**A:** No. The custom instructions only affect chat responses, not inline code suggestions.
-
-### Q: Do I need to install anything?
-
-**A:** Just run the one-command install and restart VS Code. That's it!
-
-### Q: Can I use this with other AI extensions?
-
-**A:** Yes! The compression scripts work with any AI extension. The custom instructions are GitHub Copilot specific.
-
-### Q: Is this free?
-
-**A:** Yes! 100% free and open source (MIT License).
+| Technique | Savings | How |
+|-----------|---------|-----|
+| Context Compression | 60-80% | Extract signatures instead of full files |
+| Cache-Align | 20-40% | Static prefix, dynamic suffix for API caching |
+| CCR Pattern | 60-80% | Compress → answer → retrieve on demand |
+| Concise Prompting | 70-80% | "Sum even nums" instead of full sentences |
+| Structured Output | 40-60% | JSON/tables instead of paragraphs |
+| Reference Instead of Repeat | 30-50% | "Ref: auth flow above" |
 
 ---
 
-## 📈 Token Analytics
+## FAQ
 
-Track your savings over time:
+**Q: Does this work with GitHub Copilot?**
+A: Yes. The skill uses Copilot's native skills system. No extensions needed.
 
-```bash
-# View compression stats (Windows)
-python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py --format json
+**Q: Does it affect inline code suggestions?**
+A: No. Only affects Copilot Chat responses.
 
-# View compression stats (Linux / Mac)
-python ~/.copilot/skills/optimize/compress_context.py myfile.py --format json
+**Q: Do I need to run `/optimize` every session?**
+A: Yes. Type it once at the start of each session.
 
-# Output:
-{
-  "compressed": "...",
-  "stats": {
-    "original_lines": 150,
-    "compressed_lines": 8,
-    "reduction_percent": 94.7
-  }
-}
-```
+**Q: Can I stop optimizing mid-session?**
+A: Say "stop optimizing" in chat.
+
+**Q: Is this free?**
+A: Yes. MIT License.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-We welcome contributions! Here's how:
+1. Fork the repo
+2. Create a feature branch
+3. Commit your changes
+4. Open a Pull Request
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Ideas for Contributions
-
-- 🌐 Support for more languages
-- 📊 Token usage dashboard
-- 🔄 Auto-compression on save
-- 📝 More prompt templates
-- 🎨 VS Code theme integration
+Ideas: more language support, token usage dashboard, VS Code extension.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- [GitHub Copilot](https://github.com/features/copilot) - AI pair programmer
-- [headroom-ai](https://github.com/chopratejas/headroom) - Inspiration for compression techniques
-- [VS Code](https://code.visualstudio.com/) - Code editor
-
----
-
-## 📞 Support
-
-- 🐛 **Issues:** [GitHub Issues](https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer/issues)
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer/discussions)
-- 📖 **Documentation:** [README.md](README.md)
+- [GitHub Copilot](https://github.com/features/copilot) — AI pair programmer
+- [headroom-ai](https://github.com/chopratejas/headroom) — Compression technique inspiration
+- [Andrej Karpathy](https://github.com/karpathy) — Coding philosophy
 
 ---
 
-## ⭐ Star History
+## Support
 
-If you find this project helpful, please give it a star! ⭐
+- [GitHub Issues](https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer/issues)
+- [GitHub Discussions](https://github.com/saifulhoque-bjit/vscode-copilot-token-optimizer/discussions)
 
 ---
 
 <div align="center">
 
-**Made with ❤️ for the VS Code Copilot community**
+**Made for the VS Code Copilot community**
 
-[⬆ Back to Top](#-vs-code-copilot-token-optimizer)
+[⬆ Back to Top](#vs-code-copilot-token-optimizer)
 
 </div>
