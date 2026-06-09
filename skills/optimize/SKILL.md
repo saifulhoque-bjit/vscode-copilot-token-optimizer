@@ -14,7 +14,9 @@ For the **rest of this session**, follow ALL three rules below on every response
 
 Whenever the user references a file or codebase:
 
-1. Run `python scripts/compress_context.py "<file>"` to get function/class signatures
+1. Run the compression script to get function/class signatures:
+   - **Windows:** `python %USERPROFILE%\.copilot\skills\optimize\compress_context.py "<file>"`
+   - **Linux/Mac:** `python ~/.copilot/skills/optimize/compress_context.py "<file>"`
 2. Use the compressed signatures as your primary context
 3. Only read the full file for the **specific function** the user asks about in detail
 
@@ -54,11 +56,7 @@ Default behavior for code questions:
 
 ## Quick Reference
 
-When the user provides a file path or asks about code:
-```bash
-python scripts/compress_context.py "<file>"
-```
-Use the output as your working context. Expand only when asked.
+When the user provides a file path or asks about code, run the compression script (see Rule 1 above) and use the output as your working context. Expand only when asked.
 
 When the user asks a follow-up:
 ```

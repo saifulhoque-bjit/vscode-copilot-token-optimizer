@@ -103,7 +103,7 @@ Use concise prompts in Copilot Chat:
 
 **That's it! You're now saving 30-60% on every Copilot interaction.**
 
-### Step 4: Use Slash Commands (Optional)
+### Step 4: Use /optimize (Optional)
 
 One Copilot Chat slash command. Type `/optimize` in Copilot Chat to activate all 3 optimizations for the whole session.
 
@@ -123,9 +123,11 @@ Explain the token validation flow      ← references previous answers, no repea
 
 ```
 Global Copilot Skill:
-  Windows: %USERPROFILE%\.copilot\skills\optimize\SKILL.md
-  Linux:   ~/.copilot/skills/optimize/SKILL.md
-  Mac:     ~/.copilot/skills/optimize/SKILL.md
+  Windows: %USERPROFILE%\.copilot\skills\optimize\
+    SKILL.md              — /optimize slash command rules
+    compress_context.py   — compression script
+  Linux:   ~/.copilot/skills/optimize/
+  Mac:     ~/.copilot/skills/optimize/
 
 VS Code User Prompts (Karpathy guidelines):
   Windows: %APPDATA%\Code\User\prompts\global.instructions.md

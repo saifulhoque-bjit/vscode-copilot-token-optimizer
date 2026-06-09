@@ -43,7 +43,8 @@ Write-Host "      Done!" -ForegroundColor Green
 Write-Host "[4/4] Installing /optimize slash command..." -ForegroundColor Yellow
 New-Item -ItemType Directory -Path $SkillsDir -Force | Out-Null
 Invoke-WebRequest -Uri "$BaseUrl/skills/optimize/SKILL.md" -OutFile "$SkillsDir\SKILL.md"
-Write-Host "      Saved to: $SkillsDir\SKILL.md" -ForegroundColor Gray
+Invoke-WebRequest -Uri "$BaseUrl/skills/optimize/compress_context.py" -OutFile "$SkillsDir\compress_context.py"
+Write-Host "      Saved to: $SkillsDir\" -ForegroundColor Gray
 Write-Host "      Done!" -ForegroundColor Green
 
 # Summary
@@ -55,7 +56,7 @@ Write-Host ""
 Write-Host "  Files installed:" -ForegroundColor White
 Write-Host "    Global: $VscPromptsDir\global.instructions.md" -ForegroundColor Gray
 Write-Host "    Project: .github\copilot-instructions.md" -ForegroundColor Gray
-Write-Host "    Skill:   $SkillsDir\SKILL.md" -ForegroundColor Gray
+Write-Host "    Skill:   $SkillsDir\" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  Quick Start:" -ForegroundColor White
 Write-Host "    1. Restart VS Code" -ForegroundColor Gray
