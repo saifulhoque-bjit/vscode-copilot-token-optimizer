@@ -92,32 +92,31 @@ bash install.sh   # or install.bat on Windows
 
 Close and reopen VS Code to load the custom instructions.
 
-### Step 3: Start Saving!
+### Step 3: Activate /optimize
 
-Use concise prompts in Copilot Chat:
+In Copilot Chat, type `/optimize` to activate all 3 optimizations for the session. Without this, the compression script won't run automatically.
+
+| Command | What it does | Savings |
+|---------|-------------|---------|
+| `/optimize` | Activate compress + cache-align + CCR as persistent session rules | 60-80% |
+
+```
+/optimize                               ← activate once per session
+What does src/auth.py do?              ← automatically compressed
+How does the login function work?      ← answers from signatures, drills down if needed
+Explain the token validation flow      ← references previous answers, no repeats
+```
+
+### Step 4: Use Concise Prompts
+
+Get in the habit of shorter prompts for even more savings:
 
 ```
 ❌ BEFORE: "Can you please help me write a function that..."
 ✅ AFTER:  "Write function: sum even numbers in list."
 ```
 
-**That's it! You're now saving 30-60% on every Copilot interaction.**
-
-### Step 4: Use /optimize (Optional)
-
-One Copilot Chat slash command. Type `/optimize` in Copilot Chat to activate all 3 optimizations for the whole session.
-
-| Command | What it does | Savings |
-|---------|-------------|---------|
-| `/optimize` | Activate compress + cache-align + CCR as persistent session rules | 60-80% |
-
-**Usage — just `/optimize` once, then code normally:**
-```
-/optimize                              ← activate once
-What does src/auth.py do?              ← automatically compressed
-How does the login function work?      ← answers from signatures, drills down if needed
-Explain the token validation flow      ← references previous answers, no repeats
-```
+**Savings: 30-60% on every Copilot interaction.**
 
 ### What Gets Installed
 
