@@ -93,9 +93,6 @@ Copilot: [builds on previous answers, no re-explaining]
 
 %APPDATA%/Code/User/prompts/          ← Karpathy's guidelines (global)
   global.instructions.md
-
-<project>/.github/                    ← Copilot custom instructions (per-project)
-  copilot-instructions.md
 ```
 
 ---
@@ -112,13 +109,9 @@ A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) ins
 
 **Rule 3 — CCR (Compress-Cache-Retrieve):** Compress → answer from signatures → retrieve full details only on demand. The compression is reversible — any function can be expanded to its full implementation when needed.
 
-### 2. Custom Instructions (Automatic)
+### 2. Karpathy's Coding Guidelines (Global)
 
-`.github/copilot-instructions.md` teaches Copilot to be concise — 3-5 sentences max, structured output, no filler. Active on any project with this file.
-
-### 3. Karpathy's Coding Guidelines (Global)
-
-Installed to VS Code's global prompts folder. Teaches Copilot clean coding principles: simplicity first, readable variable names, minimal dependencies, self-contained code.
+Installed to VS Code's global prompts folder. Teaches Copilot clean coding principles: simplicity first, readable variable names, minimal dependencies, self-contained code. Active on ALL projects automatically.
 
 ---
 
