@@ -5,7 +5,7 @@
 ### **Reduce GitHub Copilot token usage by 30-60%**
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+![Version](https://img.shields.io/badge/version-2.0.0-green.svg)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.80+-blue.svg)
 ![Copilot](https://img.shields.io/badge/GitHub%20Copilot-Supported-brightgreen.svg)
 
@@ -170,8 +170,11 @@ GitHub Copilot reads `.github/copilot-instructions.md` and uses it to guide resp
 Compress code files before asking Copilot:
 
 ```bash
-# Compress a Python file
-python scripts/compress_context.py myfile.py
+# Windows
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py
+
+# Linux / Mac
+python ~/.copilot/skills/optimize/compress_context.py myfile.py
 
 # Output: function signatures only (60-80% fewer tokens)
 ```
@@ -287,8 +290,11 @@ For debugging:
 **How to use:**
 
 ```bash
-# Step 1: Compress code
-python scripts/compress_context.py myfile.py > compressed.txt
+# Step 1: Compress code (Windows)
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py > compressed.txt
+
+# Step 1: Compress code (Linux / Mac)
+python ~/.copilot/skills/optimize/compress_context.py myfile.py > compressed.txt
 
 # Step 2: Ask Copilot with compressed context
 "Explain this code: [paste compressed.txt]"
@@ -412,8 +418,11 @@ and what it returns."
 ### Pattern 3: Context Compression
 
 ```bash
-# Before asking Copilot
-python scripts/compress_context.py large_file.py > compressed.txt
+# Before asking Copilot (Windows)
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py large_file.py > compressed.txt
+
+# Before asking Copilot (Linux / Mac)
+python ~/.copilot/skills/optimize/compress_context.py large_file.py > compressed.txt
 
 # Ask with compressed context
 "Explain this code: [paste compressed.txt]"
@@ -457,17 +466,20 @@ See [Quick Start](#-quick-start-30-seconds) above for one-command install.
 
 ## 🔧 Compression Script
 
+The compression script is installed globally with the `/optimize` skill. You can also run it manually:
+
 ### Usage
 
 ```bash
-# Basic usage
-python scripts/compress_context.py myfile.py
+# Windows
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py --format json
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py large_file.py --max-lines 50
 
-# JSON output
-python scripts/compress_context.py myfile.py --format json
-
-# Limit lines
-python scripts/compress_context.py large_file.py --max-lines 50
+# Linux / Mac
+python ~/.copilot/skills/optimize/compress_context.py myfile.py
+python ~/.copilot/skills/optimize/compress_context.py myfile.py --format json
+python ~/.copilot/skills/optimize/compress_context.py large_file.py --max-lines 50
 ```
 
 ### Supported Languages
@@ -531,8 +543,11 @@ Reduction: 94.7%
 Track your savings over time:
 
 ```bash
-# View compression stats
-python scripts/compress_context.py myfile.py --format json
+# View compression stats (Windows)
+python %USERPROFILE%\.copilot\skills\optimize\compress_context.py myfile.py --format json
+
+# View compression stats (Linux / Mac)
+python ~/.copilot/skills/optimize/compress_context.py myfile.py --format json
 
 # Output:
 {
