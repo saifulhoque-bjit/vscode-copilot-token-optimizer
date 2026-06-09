@@ -1,16 +1,14 @@
 ---
 name: optimize
-description: Enable all 3 token optimizations for this session: compress, cache-align, CCR
+description: Compress code context before answering — extract signatures instead of reading full files
 argument-hint: ""
 ---
 
 # /optimize
 
-For the **rest of this session**, follow ALL three rules below on every response. These are persistent behavioral rules, not one-time tasks.
+For the **rest of this session**, follow this rule on every response:
 
----
-
-## Rule 1: COMPRESS — Always extract signatures first
+## Rule: COMPRESS BEFORE ANSWERING
 
 Whenever the user references a file or codebase:
 
@@ -22,48 +20,23 @@ Whenever the user references a file or codebase:
 
 Never paste or quote an entire file. Compress first, drill down second.
 
-## Rule 2: CACHE-ALIGN — Static prefix, dynamic suffix
+### When to read the full file
 
-Structure every response in this order:
+| User asks... | What to do |
+|---|---|
+| "What does this file do?" | Answer from signatures only |
+| "Explain the architecture" | Answer from class/function map |
+| "Where's the bug?" | Answer from signatures, flag suspicious patterns |
+| "How does X work internally?" | Read only that function's implementation |
+| "Review this code" | Read only the functions you flag |
 
-1. **Static context first** (reusable): project structure, conventions, tech stack, architecture
-2. **Dynamic content last** (query-specific): the actual answer, code changes, analysis
+### Follow-up questions
 
-When answering follow-up questions:
-- Reference previous answers: "Ref: auth flow above"
-- Never re-explain context already established in this session
-- Build incrementally on what's already been said
-
-## Rule 3: CCR — Answer from structure, retrieve on demand
-
-Default behavior for code questions:
-
-| Question Type | Answer From | Full File Needed? |
-|---------------|-------------|-------------------|
-| "What does this do?" | Signatures only | No |
-| "Explain the architecture" | Class/function map | No |
-| "Where's the bug?" | Signatures + patterns | Maybe |
-| "How does X work internally?" | Signatures first | Yes — read only that function |
-| "Review this code" | Signatures first | Yes — read only flagged functions |
-
-**Workflow for every code question:**
-1. Compress → get signatures (60-80% fewer tokens)
-2. Answer from signatures if possible
-3. Retrieve full implementation only for specific functions requested
-4. Reference compressed context for follow-ups
-
----
-
-## Quick Reference
-
-When the user provides a file path or asks about code, run the compression script (see Rule 1 above) and use the output as your working context. Expand only when asked.
-
-When the user asks a follow-up:
+When the user asks follow-ups, reference previous answers instead of re-explaining:
 ```
 Ref: [previous topic] above. [new question]
 ```
-Don't repeat context. Build on it.
 
 ---
 
-**These rules are active until the session ends or the user says "stop optimizing".**
+**This rule is active until the session ends or the user says "stop optimizing".**

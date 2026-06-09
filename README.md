@@ -2,14 +2,12 @@
 
 # VS Code Copilot Token Optimizer
 
-### `/optimize` — one command, every session, 30-60% fewer tokens
+### `/optimize` — one command, every session, fewer tokens
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Version](https://img.shields.io/badge/version-2.0.0-green.svg)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.80+-blue.svg)
 ![Copilot](https://img.shields.io/badge/GitHub%20Copilot-Supported-brightgreen.svg)
-
-**Save money. Save tokens. Code faster.**
 
 [Quick Start](#-quick-start) • [How It Works](#-how-it-works) • [/optimize Skill](#-optimize-skill) • [Compression Script](#-compression-script) • [FAQ](#-faq)
 
@@ -19,7 +17,7 @@
 
 ## What Is This?
 
-A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) that makes Copilot compress code before answering. Install it, type **`/optimize`** in Copilot Chat, and every file question for the rest of the session uses function signatures instead of full files.
+A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) that makes Copilot compress code before answering. When you ask about a file, instead of reading the entire file, Copilot extracts function/class signatures and answers from the skeleton. If you need details on a specific function, it reads only that one.
 
 **Without `/optimize`:**
 ```
@@ -30,10 +28,10 @@ Copilot: [reads all 500 lines, 2000 tokens consumed]
 **With `/optimize`:**
 ```
 You:  "What does src/auth.py do?"
-Copilot: [reads 8 function signatures, 200 tokens consumed, same quality answer]
+Copilot: [reads 8 function signatures, 200 tokens consumed, same answer]
 ```
 
-**One command. Once per session. Automatic after that.**
+Also installs **Karpathy's coding guidelines** globally — teaches Copilot clean, simple code across all projects.
 
 ---
 
@@ -63,24 +61,20 @@ bash install.sh      # Linux / Mac
 
 ### 3. Run `/optimize` in Copilot Chat
 
-> **This is the key step.** Open Copilot Chat (Ctrl+Shift+I or click the Chat icon), type `/optimize`, and press Enter. Copilot confirms with "Optimization mode enabled." Now every file question auto-compresses for the rest of the session.
+> **This is the key step.** Open Copilot Chat (Ctrl+Shift+I), type `/optimize`, press Enter. Copilot confirms it's active. Now every file question compresses automatically.
 
 ```
 You:  /optimize
-Copilot: ✅ Optimization mode enabled. I'll compress files before answering,
-         structure responses for caching, and answer from signatures first.
+Copilot: ✅ Optimization mode enabled.
 
 You:  What does src/auth.py do?
-Copilot: [reads 8 signatures instead of 500 lines, answers from structure]
+Copilot: [reads 8 signatures instead of 500 lines]
 
 You:  How does the login function work?
-Copilot: [drills into just that function, references previous answer]
-
-You:  Explain the token validation flow
-Copilot: [builds on previous answers, no re-explaining]
+Copilot: [reads only that function's implementation]
 ```
 
-**You must run `/optimize` at the start of every new Copilot Chat session.** Without it, Copilot behaves normally and reads full files.
+**Run `/optimize` at the start of every new Copilot Chat session.** Without it, Copilot reads full files.
 
 ---
 
@@ -99,19 +93,28 @@ Copilot: [builds on previous answers, no re-explaining]
 
 ## How It Works
 
-### 1. The `/optimize` Skill (Core Feature)
+### The `/optimize` Skill
 
-A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) installed to `~/.copilot/skills/optimize/`. When you type `/optimize` in Copilot Chat, it activates 3 persistent rules for the session:
+A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) installed to `~/.copilot/skills/optimize/`. When you type `/optimize`, Copilot reads `SKILL.md` and follows one main rule for the rest of the session:
 
-**Rule 1 — COMPRESS:** Before answering any file question, Copilot runs `compress_context.py` to extract function/class signatures. Answers from the compressed skeleton (60-80% fewer tokens). Only reads full implementations when you ask for specific function details.
+**Before answering any file question, run `compress_context.py` to extract function/class signatures. Answer from the compressed output. Only read the full implementation when the user asks about a specific function.**
 
-**Rule 2 — CACHE-ALIGN:** Structures every response with static context first (project structure, conventions) and dynamic content last (the actual answer). Follow-up questions reference previous answers instead of re-explaining.
+The script uses Python's `ast` module to parse code and extract:
+- Function names and parameters
+- Class names and methods
+- Return type annotations (if present)
 
-**Rule 3 — CCR (Compress-Cache-Retrieve):** Compress → answer from signatures → retrieve full details only on demand. The compression is reversible — any function can be expanded to its full implementation when needed.
+It strips all function bodies, comments, and implementation details — leaving just the skeleton.
 
-### 2. Karpathy's Coding Guidelines (Global)
+### Karpathy's Coding Guidelines
 
-Installed to VS Code's global prompts folder. Teaches Copilot clean coding principles: simplicity first, readable variable names, minimal dependencies, self-contained code. Active on ALL projects automatically.
+Installed to VS Code's global prompts folder (`global.instructions.md`). Teaches Copilot clean coding principles on ALL projects automatically:
+
+- Simplicity first — no unnecessary abstractions
+- Readable variable names — `num_heads` not `nh`
+- Minimal dependencies — stdlib first
+- Self-contained code — each file independently runnable
+- Comments explain **why**, not **what**
 
 ---
 
@@ -122,11 +125,10 @@ Installed to VS Code's global prompts folder. Teaches Copilot clean coding princ
 | Situation | Action |
 |-----------|--------|
 | Starting a new Copilot Chat session | Type `/optimize` |
-| Opened a new file and want to ask about it | `/optimize` is already active (if you ran it this session) |
+| Already ran it this session | Still active, no need to re-run |
 | Switched to a different VS Code window | Type `/optimize` again (new session) |
-| Long session getting slow | Works throughout — no need to re-run |
 
-**Rule of thumb: if you opened a fresh Copilot Chat, run `/optimize` first.**
+**Rule of thumb: fresh Copilot Chat = run `/optimize` first.**
 
 ### Location
 
@@ -140,13 +142,13 @@ Mac:      ~/.copilot/skills/optimize/
 
 | File | Purpose |
 |------|---------|
-| `SKILL.md` | Defines the `/optimize` slash command and its 3 rules |
+| `SKILL.md` | Defines the `/optimize` slash command and its rules |
 | `compress_context.py` | Extracts function/class signatures from code files |
 
-### How the Skill Works
+### How It Works Step by Step
 
 1. You type `/optimize` in Copilot Chat
-2. Copilot reads `SKILL.md` and follows the 3 rules for the rest of the session
+2. Copilot reads `SKILL.md` and follows the rules for the rest of the session
 3. When you ask about a file, Copilot runs `compress_context.py` internally
 4. It answers from the compressed signatures (not the full file)
 5. If you ask "how does X work internally?", it reads only that function
@@ -203,16 +205,16 @@ Reduction: 94.7%
 
 ---
 
-## Token Savings
+## Prompting Tips (Not Automated)
 
-| Technique | Savings | How |
-|-----------|---------|-----|
-| Context Compression | 60-80% | Extract signatures instead of full files |
-| Cache-Align | 20-40% | Static prefix, dynamic suffix for API caching |
-| CCR Pattern | 60-80% | Compress → answer → retrieve on demand |
-| Concise Prompting | 70-80% | "Sum even nums" instead of full sentences |
-| Structured Output | 40-60% | JSON/tables instead of paragraphs |
-| Reference Instead of Repeat | 30-50% | "Ref: auth flow above" |
+These are habits that save tokens on top of what `/optimize` does. They're **not built into the tool** — you do them yourself:
+
+| Tip | Example | Why it helps |
+|-----|---------|-------------|
+| **Be concise** | "Sum even nums in list" instead of "Can you please help me write a function that..." | Fewer input tokens |
+| **Ask for structured output** | "Analyze function: {params, returns, purpose}" | Shorter responses |
+| **Batch questions** | "Explain lines 10, 20, 30" instead of 3 separate asks | One API call instead of three |
+| **Reference, don't repeat** | "Ref: auth flow above. Optimize it." | Avoids re-sending context |
 
 ---
 
@@ -224,14 +226,17 @@ A: Yes. The skill uses Copilot's native skills system. No extensions needed.
 **Q: Does it affect inline code suggestions?**
 A: No. Only affects Copilot Chat responses.
 
+**Q: How much can I save?**
+A: The compression script typically reduces code context by 60-90% (150 lines → 8 signatures). Actual token savings depend on how much of the conversation is file context vs. your questions.
+
 **Q: Do I need to run `/optimize` every session?**
-A: Yes. Open Copilot Chat, type `/optimize`, press Enter. Do this once at the start of every session. If you forget, Copilot reads full files as usual — no harm done, just more tokens consumed.
+A: Yes. Open Copilot Chat, type `/optimize`, press Enter. Once per session.
 
 **Q: Can I stop optimizing mid-session?**
 A: Say "stop optimizing" in chat.
 
 **Q: What if I don't run `/optimize`?**
-A: Karpathy's guidelines are always active globally. But the automatic compression (the biggest saver) only kicks in when `/optimize` is running.
+A: Karpathy's guidelines are always active globally. But the automatic compression only kicks in when `/optimize` is running.
 
 **Q: Is this free?**
 A: Yes. MIT License.
@@ -245,14 +250,11 @@ A: Yes. MIT License.
 3. Commit your changes
 4. Open a Pull Request
 
-Ideas: more language support, token usage dashboard, VS Code extension.
-
 ---
 
 ## Acknowledgments
 
-- [GitHub Copilot](https://github.com/features/copilot) — AI pair programmer
-- [headroom-ai](https://github.com/chopratejas/headroom) — Compression technique inspiration
+- [headroom-ai](https://github.com/chopratejas/headroom) — Inspiration for context compression
 - [Andrej Karpathy](https://github.com/karpathy) — Coding philosophy
 
 ---
