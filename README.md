@@ -2,7 +2,7 @@
 
 # VS Code Copilot Token Optimizer
 
-### Reduce GitHub Copilot token usage by 30-60%
+### `/optimize` — one command, every session, 30-60% fewer tokens
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Version](https://img.shields.io/badge/version-2.0.0-green.svg)
@@ -19,12 +19,21 @@
 
 ## What Is This?
 
-A **Copilot skill + custom instructions** that automatically reduce GitHub Copilot's token usage. Type `/optimize` once per session, then code normally — every file question gets compressed to function signatures before Copilot answers.
+A [Copilot skill](https://code.visualstudio.com/docs/copilot/copilot-skills) that makes Copilot compress code before answering. Install it, type **`/optimize`** in Copilot Chat, and every file question for the rest of the session uses function signatures instead of full files.
 
+**Without `/optimize`:**
 ```
-❌ Before: Copilot reads your entire 500-line file (2000 tokens)
-✅ After:  Copilot reads 8 function signatures (200 tokens) → same answer
+You:  "What does src/auth.py do?"
+Copilot: [reads all 500 lines, 2000 tokens consumed]
 ```
+
+**With `/optimize`:**
+```
+You:  "What does src/auth.py do?"
+Copilot: [reads 8 function signatures, 200 tokens consumed, same quality answer]
+```
+
+**One command. Once per session. Automatic after that.**
 
 ---
 
@@ -52,13 +61,14 @@ bash install.sh      # Linux / Mac
 
 ### 2. Restart VS Code
 
-### 3. Type `/optimize` in Copilot Chat
+### 3. Run `/optimize` in Copilot Chat
 
-That's it. Every file question now auto-compresses for the rest of the session.
+> **This is the key step.** Open Copilot Chat (Ctrl+Shift+I or click the Chat icon), type `/optimize`, and press Enter. Copilot confirms with "Optimization mode enabled." Now every file question auto-compresses for the rest of the session.
 
 ```
 You:  /optimize
-Copilot: ✅ Optimization mode enabled.
+Copilot: ✅ Optimization mode enabled. I'll compress files before answering,
+         structure responses for caching, and answer from signatures first.
 
 You:  What does src/auth.py do?
 Copilot: [reads 8 signatures instead of 500 lines, answers from structure]
@@ -69,6 +79,8 @@ Copilot: [drills into just that function, references previous answer]
 You:  Explain the token validation flow
 Copilot: [builds on previous answers, no re-explaining]
 ```
+
+**You must run `/optimize` at the start of every new Copilot Chat session.** Without it, Copilot behaves normally and reads full files.
 
 ---
 
@@ -111,6 +123,17 @@ Installed to VS Code's global prompts folder. Teaches Copilot clean coding princ
 ---
 
 ## `/optimize` Skill
+
+### When to Run It
+
+| Situation | Action |
+|-----------|--------|
+| Starting a new Copilot Chat session | Type `/optimize` |
+| Opened a new file and want to ask about it | `/optimize` is already active (if you ran it this session) |
+| Switched to a different VS Code window | Type `/optimize` again (new session) |
+| Long session getting slow | Works throughout — no need to re-run |
+
+**Rule of thumb: if you opened a fresh Copilot Chat, run `/optimize` first.**
 
 ### Location
 
@@ -209,10 +232,13 @@ A: Yes. The skill uses Copilot's native skills system. No extensions needed.
 A: No. Only affects Copilot Chat responses.
 
 **Q: Do I need to run `/optimize` every session?**
-A: Yes. Type it once at the start of each session.
+A: Yes. Open Copilot Chat, type `/optimize`, press Enter. Do this once at the start of every session. If you forget, Copilot reads full files as usual — no harm done, just more tokens consumed.
 
 **Q: Can I stop optimizing mid-session?**
 A: Say "stop optimizing" in chat.
+
+**Q: What if I don't run `/optimize`?**
+A: Everything still works — custom instructions and Karpathy guidelines are always active. But the automatic compression (the biggest saver) only kicks in when `/optimize` is running.
 
 **Q: Is this free?**
 A: Yes. MIT License.
